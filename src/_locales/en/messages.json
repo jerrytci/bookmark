@@ -1,0 +1,215 @@
+{
+  "ext_name": {
+    "message": "onetab2"
+  },
+  "ext_desc": {
+    "message": "Handle bookmarks that do not fit in the bookmarks bar"
+  },
+  "menu_STORE_SELECTED_TABS": {
+    "message": "store selected tabs"
+  },
+  "menu_STORE_ALL_TABS_IN_CURRENT_WINDOW": {
+    "message": "store all tabs in current window"
+  },
+  "menu_SHOW_TAB_LIST": {
+    "message": "show tab list"
+  },
+  "menu_STORE_ALL_TABS_IN_ALL_WINDOWS": {
+    "message": "store all tabs in all windows"
+  },
+  "menu_EXTRA": {
+    "message": "extra"
+  },
+  "menu_STORE_LEFT_TABS": {
+    "message": "store left tabs"
+  },
+  "menu_STORE_RIGHT_TABS": {
+    "message": "store right tabs"
+  },
+  "menu_STORE_TWOSIDE_TABS": {
+    "message": "store unselected tabs"
+  },
+  "cmd_store_selected_tabs": {
+    "message": "Store selected tabs"
+  },
+  "cmd_store_all_tabs": {
+    "message": "Store all tabs"
+  },
+  "cmd_restore_lastest_list": {
+    "message": "Restore lastest tabs"
+  },
+  "cmd_open_lists": {
+    "message": "Open tab lists"
+  },
+  "cmd_store_all_in_all_windows": {
+    "message": "Store all tabs in all windows"
+  },
+  "opt_desc_browserAction": {
+    "message": "Behavior when icon is clicked"
+  },
+  "opt_desc_itemClickAction": {
+    "message": "Behavior when item in a list is clicked"
+  },
+  "opt_desc_itemDisplay": {
+    "message": "Contents of the items in a list"
+  },
+  "opt_desc_removeItemBtnPos": {
+    "message": "The position of remove item button"
+  },
+  "opt_desc_popupItemClickAction": {
+    "message": "Behavior when item in simple list is clicked"
+  },
+  "opt_desc_addHistory": {
+    "message": "Add stored tab to history"
+  },
+  "opt_desc_ignorePinned": {
+    "message": "Prevent store pinned tabs"
+  },
+  "opt_desc_pinNewList": {
+    "message": "Auto pin new list"
+  },
+  "opt_desc_pageContext": {
+    "message": "Turn on the button of context menu in the page"
+  },
+  "opt_desc_openTabListWhenNewTab": {
+    "message": "Cover the browser action to show tab lists if current tab is new tab page (won't cover popup simple list)"
+  },
+  "opt_desc_syncOptions": {
+    "message": "Sync settings"
+  },
+  "opt_desc_syncList": {
+    "message": "Sync lists"
+  },
+  "opt_label_popup": {
+    "message": "popup simple list"
+  },
+  "opt_label_store_selected": {
+    "message": "store selected tabs"
+  },
+  "opt_label_store_all": {
+    "message": "store all tabs in current window"
+  },
+  "opt_label_show_list": {
+    "message": "show list"
+  },
+  "opt_label_none": {
+    "message": "none"
+  },
+  "opt_label_open_and_remove": {
+    "message": "open and remove"
+  },
+  "opt_label_open": {
+    "message": "open"
+  },
+  "opt_label_restore": {
+    "message": "restore"
+  },
+  "opt_label_restore_new_window": {
+    "message": "restore in new window"
+  },
+  "opt_label_left": {
+    "message": "left"
+  },
+  "opt_label_right": {
+    "message": "right"
+  },
+  "ui_nightmode": {
+    "message": "nightmode"
+  },
+  "ui_tab": {
+    "message": "tabs"
+  },
+  "ui_created": {
+    "message": "Created"
+  },
+  "ui_retitle_list": {
+    "message": "retitle list"
+  },
+  "ui_restore_all": {
+    "message": "restore list"
+  },
+  "ui_restore_all_in_new_window": {
+    "message": "restore all in new window"
+  },
+  "ui_remove_list": {
+    "message": "remove list"
+  },
+  "ui_pin": {
+    "message": "pin"
+  },
+  "ui_unpin": {
+    "message": "unpin"
+  },
+  "ui_list": {
+    "message": "list"
+  },
+  "ui_create_issue": {
+    "message": "Create an issue"
+  },
+  "ui_options": {
+    "message": "Options"
+  },
+  "ui_options_behaviour": {
+    "message": "Behaviour"
+  },
+  "ui_options_appearance": {
+    "message": "Appearance"
+  },
+  "ui_options_sync": {
+    "message": "Sync"
+  },
+  "ui_about": {
+    "message": "About"
+  },
+  "ui_keyboard_shortcuts": {
+    "message": "Keyboard shortcuts"
+  },
+  "ui_export_import": {
+    "message": "Export / Import"
+  },
+  "ui_github": {
+    "message": "GitHub"
+  },
+  "ui_tab_list": {
+    "message": "Tab List"
+  },
+  "ui_export": {
+    "message": "Export"
+  },
+  "ui_import": {
+    "message": "Import"
+  },
+  "ui_export_comp": {
+    "message": "Export (compatible with onetab)"
+  },
+  "ui_export_json": {
+    "message": "Export to JSON"
+  },
+  "ui_import_comp": {
+    "message": "Import (compatible with onetab)"
+  },
+  "ui_import_json": {
+    "message": "Import from JSON"
+  },
+  "ui_main_processing": {
+    "message": "processing..."
+  },
+  "ui_main_error_occured": {
+    "message": "some errors occured"
+  },
+  "ui_main_successed": {
+    "message": "successed!"
+  },
+  "ui_opt_changes_saved": {
+    "message": "Changes saved!"
+  },
+  "ui_title_pin_btn": {
+    "message": "pin list"
+  },
+  "ui_title_up_btn": {
+    "message": "move list up"
+  },
+  "ui_title_down_btn": {
+    "message": "move list down"
+  }
+}
