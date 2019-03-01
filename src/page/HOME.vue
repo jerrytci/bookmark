@@ -1,10 +1,10 @@
 <template>
   <div>
-    <waterfall :grow="grow" :watch="lists" ref="waterfall" line-gap="">
+    <waterfall :grow="grow" :watch="lists" ref="waterfall" line-gap="" :fixed-height="true">
       <waterfall-slot v-for="(list, index) in lists" :key="list.id"
-                      :width="200" :height="200"
+                      :width="1" :height="itemHeight(list.tabs.length)"
                       :order="index">
-        <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(meta.margin)}">
+        <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
           <div class="label" style="width: inherit">
             <div class="label-title">
               <a>{{list.title == '' ? '未设置名字' : list.title}}</a>
@@ -41,8 +41,10 @@
       return {
         grow: [1, 1, 1, 1, 1],
         lists: [],
-        meta: {
+        itemMeta: {
           margin: 10,
+          content: 24,
+          header: 35.2
         },
       }
     },
@@ -68,6 +70,9 @@
     methods: {
       _px(param) {
         return param + 'px';
+      },
+      itemHeight: function (linkCount) {
+        return linkCount * this.itemMeta.content + this.itemMeta.header + this.itemMeta.margin * 2;
       },
     }
   }
