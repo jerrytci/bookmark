@@ -1,13 +1,25 @@
 <template>
   <div>
     <waterfall :grow="grow" :watch="lists" ref="waterfall" line-gap="" :fixed-height="true">
-      <waterfall-slot v-for="(list, index) in lists" :key="list.id"
-                      :width="1" :height="itemHeight(list.tabs.length)"
+      <waterfall-slot :width="1" :height="72">
+        <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
+          <div class="bookmark">
+            <div style="width: 100px">
+              <img style="padding: 0 15px 0 30px" :src="'/assets/icons/icon_48.png'">
+            </div>
+            <el-select v-model="value" placeholder="请选择" clearable value="" style="padding: 5px;">
+              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+          </div>
+        </el-card>
+      </waterfall-slot>
+      <waterfall-slot :width="1" :height="itemHeight(list.tabs.length)"
+                      v-for="(list, index) in lists" :key="list.id"
                       :order="index">
         <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
           <div class="label" style="width: inherit">
             <div class="label-title">
-              <a>{{list.title == '' ? '未设置名字' : list.title}}</a>
+              <a>{{list.title === '' ? '未设置名字' : list.title}}</a>
             </div>
             <i class="el-icon-edit-outline"></i>
             <i class="el-icon-remove-outline"></i>
@@ -41,11 +53,28 @@
       return {
         grow: [1, 1, 1, 1, 1],
         lists: [],
+        value: '',
         itemMeta: {
           margin: 10,
           content: 24,
           header: 35.2
         },
+        options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
       }
     },
     created() {
@@ -74,10 +103,15 @@
       itemHeight: function (linkCount) {
         return linkCount * this.itemMeta.content + this.itemMeta.header + this.itemMeta.margin * 2;
       },
+    },
+    mounted() {
     }
   }
 </script>
-
+<style lang="stylus" scoped>
+  .bookmark
+    display flex
+</style>
 <style lang="stylus" scoped>
   .label-title
     width calc(100% - 24px * 2)
