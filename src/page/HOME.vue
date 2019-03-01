@@ -21,7 +21,7 @@
             <div class="label-title">
               <a @click="restoreList(index, true)">{{list.title === '' ? '未设置名字' : list.title}}</a>
             </div>
-            <i class="el-icon-star-off"></i>
+            <i class="el-icon-star-off" @click="tabSave(index)"></i>
             <i class="el-icon-edit-outline" @click="renameList(index, list.title)"></i>
             <i class="el-icon-remove-outline" @click="removeList(index)"></i>
           </div>
@@ -39,7 +39,10 @@
 </template>
 
 <script>
-  // import $ from 'jquery'
+  const host = 'http://localhost:8080';
+  const urlTopicAdd = host + "/basic/add";
+  import $ from 'jquery'
+
   import _ from 'lodash'
   import Waterfall from 'vue-waterfall/lib/waterfall'
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
@@ -56,6 +59,7 @@
       return {
         grow: [1, 1, 1, 1, 1],
         lists: [],
+        topics: [],
         value: '',
         itemMeta: {
           margin: 10,
@@ -148,6 +152,59 @@
         }).catch(() => {
           this.$message({type: 'info', message: '已取消更改'});
         });
+      },
+      /*todo cros*/
+      tabSave(listIndex) {
+        const _this = this;
+        let list = _this.lists[listIndex];
+        let tabs = [];
+        if (list.tabs.length === 0) {
+          this.$message({type: 'info', message: '已取消保存,没有书签可以保存'});
+          return;
+        }
+        if (list.title === '') {
+          this.$message({type: 'info', message: '已取消保存,请先设置名字'});
+          return;
+        }
+        list.tabs.forEach((value) => {
+          let tab = {};
+          tab.favIconUrl = value.favIconUrl;
+          tab.title = value.title;
+          tab.url = value.url;
+          tab.creationtime = new Date();
+          tabs.push(tab);
+        });
+
+        $.ajax({
+          type: "POST",
+          url: urlTopicAdd,
+          dataType: "json",
+          contentType: "application/json", // 指定这个协议很重要
+          data: JSON.stringify({topicTitle: list.title, tabs: tabs}), //只有这一个参数，json格式，后台解析为实体，后台可以直接用
+          success: function (topic) {
+            _this.$message({center: true, type: 'success', message: '保存成功!'});
+
+            _this.addTopic(topic);
+
+            _this.lists.splice(listIndex, 1);
+            _this.storeLists();
+          }
+        })
+      },
+
+      // todo sort
+      addTopic(topic) {
+        this.topics.push(topic)
+      },
+
+      updateFolder(topic) {
+        const _this = this;
+        this.topics.forEach((value, index) => {
+          if (value.id === topic.id) {
+            _this.topics.splice(index, 1, topic);
+            return;
+          }
+        })
       },
     },
     mounted() {
