@@ -7,20 +7,13 @@
         <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(meta.margin)}">
           <div class="label" style="width: inherit">
             <div class="label-title">
-              <a>{{list.title == '' ? '未设置名字, 未设置名字未设置名字未设置名字还要更长还要更长还要更长' : list.title}}</a>
+              <a>{{list.title == '' ? '未设置名字' : list.title}}</a>
             </div>
-            <!--恢复-->
-            <i class="el-icon-view"></i>
-            <!--更改自身名字-->
             <i class="el-icon-edit-outline"></i>
-            <!--删除自身-->
             <i class="el-icon-remove-outline"></i>
-            <!--保存为topic-->
-            <!--todo icon:save-->
-            <i class="el-icon-star-off"></i>
           </div>
           <div class="link" style="width: inherit" v-for="(tab) in list.tabs">
-            <div>
+            <div class="link-title">
               <img :src="tab.favIconUrl == null ? '/assets/icons/icon_16.png' : tab.favIconUrl">
               <a :href="tab.url" target="_blank">{{tab.title}}</a>
             </div>
@@ -76,28 +69,32 @@
       _px(param) {
         return param + 'px';
       },
-      styleRoot() {
-      },
     }
   }
 </script>
 
 <style lang="stylus" scoped>
+  .label-title
+    width calc(100% - 24px * 2)
+
+  /*10:padding.*/
+  .link-title
+    width calc(100% - 24px - 10px * 2)
+
   .label
     display flex
     font-weight bold
     font-size 14px
     & > i
-      padding 10px
+      padding 10px 5px
       &:hover
         background-color rgb(235, 235, 235)
-    & > div > a
-      padding 8px 10px;
-      &:hover
-        background-color rgb(235, 235, 235)
-
-  .links-column-root
-    display flex
+    & > div
+      display flex
+      & > a
+        padding 8px 10px;
+        &:hover
+          background-color rgb(235, 235, 235)
 
   .link
     font-size 12px
