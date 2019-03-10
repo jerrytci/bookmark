@@ -2,16 +2,14 @@
   <div>
     <waterfall :grow="grow" :watch="lists" ref="waterfall" line-gap="" :fixed-height="true">
       <waterfall-slot :width="1" :height="72">
-        <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
-          <div class="bookmark">
-            <div style="width: 100px">
-              <img style="padding: 0 15px 0 30px" :src="'/assets/icons/icon_48.png'">
-            </div>
-            <el-select v-model="value" placeholder="请选择" clearable value="" style="padding: 5px;">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-            </el-select>
+        <div class="bookmark" :style="{margin: _px(itemMeta.margin)}">
+          <div style="width: 40px">
+            <img style="width: 40px; height: 40px" :src="'/assets/icons/icon_48.png'">
           </div>
-        </el-card>
+          <el-select v-model="value" placeholder="请选择" clearable value="">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+        </div>
       </waterfall-slot>
       <waterfall-slot :width="1" :height="itemHeight(list.tabs.length)"
                       v-for="(list, index) in lists" :key="list.id"
