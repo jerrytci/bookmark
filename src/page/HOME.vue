@@ -16,14 +16,35 @@
                       :order="index">
         <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
           <div class="label" style="width: inherit">
+            <i class="el-icon-star-off" @click="listSave(index)"></i>
+            <i class="el-icon-edit-outline" @click="renameList(index, list.title)"></i>
             <div class="label-title">
               <a @click="restoreList(index, true)">{{list.title === '' ? '未设置名字' : list.title}}</a>
             </div>
-            <i class="el-icon-star-off" @click="tabSave(index)"></i>
-            <i class="el-icon-edit-outline" @click="renameList(index, list.title)"></i>
             <i class="el-icon-remove-outline" @click="removeList(index)"></i>
           </div>
           <div class="link" style="width: inherit" v-for="(tab, tabIndex) in list.tabs">
+            <div class="link-title">
+              <img :src="tab.favIconUrl == null ? '/assets/icons/icon_16.png' : tab.favIconUrl">
+              <a :href="tab.url" target="_blank">{{tab.title}}</a>
+            </div>
+            <i class="el-icon-remove-outline" @click="tabRemove(index, tabIndex)"></i>
+          </div>
+        </el-card>
+      </waterfall-slot>
+      <waterfall-slot :width="1" :height="itemHeight(topic.tabs.length)"
+                      v-for="(topic, index) in topics" :key="topic.id"
+                      :order="index">
+        <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
+          <div class="label" style="width: inherit">
+            <i class="el-icon-star-on" @click="a1(index)"></i>
+            <i class="el-icon-edit-outline" @click="renameList(index, topic.title)"></i>
+            <div class="label-title">
+              <a @click="restoreTopic(index, true)">{{topic.title === '' ? '未设置名字' : topic.title}}</a>
+            </div>
+            <i class="el-icon-remove-outline" @click="removeList(index)"></i>
+          </div>
+          <div class="link" style="width: inherit" v-for="(tab, tabIndex) in topic.tabs">
             <div class="link-title">
               <img :src="tab.favIconUrl == null ? '/assets/icons/icon_16.png' : tab.favIconUrl">
               <a :href="tab.url" target="_blank">{{tab.title}}</a>
@@ -39,6 +60,7 @@
 <script>
   const host = 'http://localhost:8080';
   const urlTopicAdd = host + "/basic/add";
+  const urlTopicList = host + "/basic/list";
   import $ from 'jquery'
 
   import _ from 'lodash'
@@ -83,6 +105,12 @@
       }
     },
     created() {
+      const _this = this;
+      $.get(urlTopicList, {}, function (topics) {
+        if (topics.length == 0) console.log("topics length is 0");
+        _this.topics = topics;
+      });
+
       // 获取unclassified links
       storage.getLists().then(lists => {
         if (lists) {
@@ -151,8 +179,20 @@
           this.$message({type: 'info', message: '已取消更改'});
         });
       },
-      /*todo cros*/
-      tabSave(listIndex) {
+
+      restoreTopic(index, inNewWindow = true) {
+        let topic = this.topics[index];
+        if (inNewWindow) {
+          tabs.restoreListInNewWindow(topic);
+        } else {
+          tabs.restoreList(topic);
+        }
+      },
+      /*todo 去持久化topic(list)*/
+      a1(){
+        console.log("todo 去持久化topic(list)");
+      },
+      listSave(listIndex) {
         const _this = this;
         let list = _this.lists[listIndex];
         let tabs = [];
@@ -192,7 +232,7 @@
 
       // todo sort
       addTopic(topic) {
-        this.topics.push(topic)
+        this.topics.push(topic);
       },
 
       updateFolder(topic) {
