@@ -64,11 +64,7 @@
 </template>
 
 <script>
-  import storage from '@/common/storage'
   import $ from 'jquery'
-
-  // import axios from 'axios'
-  let uid = 'a79bff3da06140e7b9cb5444f628918e';
 
   const host = 'http://localhost:8080';
   const urlAccountLogin = host + "/account/login";
@@ -108,7 +104,6 @@
             console.log("logged failed");
           }
         });
-        // storage.set({'account': uid});
       },
       register: function () {
         console.log("test-register");
@@ -123,17 +118,6 @@
           username: this.create.name,
           password: this.create.password
         };
-        /*axios.get(host + url, {params:options})
-          .then((response) => {
-            if(response.data == false){
-              console.log("注册失败");
-            }else {
-              console.log("注册成功，请用Email登录");
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });*/
       },
       forgetPassword: function () {
 
