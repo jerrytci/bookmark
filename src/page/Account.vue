@@ -98,7 +98,12 @@
           dataType: 'json',
           data: {"account": _this.account, "password": _this.password},
           success: function (res) {
-            console.log("logged");
+            if (res.login === true) {
+              _this.$router.push({name: "index"});
+              console.log("logged");
+            } else {
+              console.log("logged failed");
+            }
           },
           error: function (res) {
             console.log("logged failed");
