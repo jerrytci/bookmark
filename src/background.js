@@ -56,15 +56,13 @@ const setupContextMenus = async pageContext => {
   const contexts = [browser.contextMenus.ContextType.BROWSER_ACTION]
   if (pageContext) contexts.push(browser.contextMenus.ContextType.PAGE)
   const menus = {
-    STORE_SELECTED_TABS: tabs.storeSelectedTabs,
-    STORE_ALL_TABS_IN_CURRENT_WINDOW: tabs.storeAllTabs,
     SHOW_TAB_LIST: tabs.openTabLists,
+    STORE_SELECTED_TABS: tabs.storeSelectedTabs,
+    STORE_LEFT_TABS: tabs.storeLeftTabs,
+    STORE_RIGHT_TABS: tabs.storeRightTabs,
+    STORE_TWOSIDE_TABS: tabs.storeTwoSideTabs,
+    STORE_ALL_TABS_IN_CURRENT_WINDOW: tabs.storeAllTabs,
     STORE_ALL_TABS_IN_ALL_WINDOWS: tabs.storeAllTabInAllWindows,
-    EXTRA: {
-      STORE_LEFT_TABS: tabs.storeLeftTabs,
-      STORE_RIGHT_TABS: tabs.storeRightTabs,
-      STORE_TWOSIDE_TABS: tabs.storeTwoSideTabs,
-    },
   }
   const createMenus = async (obj, parent) => {
     for (const key of Object.keys(obj)) {
