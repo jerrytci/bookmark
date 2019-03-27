@@ -25,7 +25,7 @@
             <el-input size="mini" v-model="account" placeholder="Email"></el-input>
           </div>
           <div>
-            <el-input size="mini" v-model="code" type="password" placeholder="验证码"></el-input>
+            <el-input size="mini" v-model="verificationCode" type="password" placeholder="验证码"></el-input>
           </div>
           <div>
             <el-button class="b1" type="primary" size="mini" @click="forgetPassword()">提交</el-button>
@@ -65,11 +65,14 @@
 
 <script>
   import storage from '@/common/storage'
+  import $ from 'jquery'
 
   // import axios from 'axios'
+  let uid = 'a79bff3da06140e7b9cb5444f628918e';
 
   const host = 'http://localhost:8080';
-  let uid = 'a79bff3da06140e7b9cb5444f628918e';
+  const urlAccountLogin = host + "/account/login";
+
 
   export default {
     name: "Account",
@@ -78,7 +81,7 @@
         page: 1, /*1: 'login', 2: 'forgetPassword', 3: 'register'*/
         account: "",
         password: '',
-        code: '',
+        verificationCode: '',
         create: {
           email: '',
           name: '',
@@ -87,18 +90,30 @@
         }
       }
     },
-    components: {
-    },
+    components: {},
     methods: {
       login: function () {
-        // developing
-        storage.set({'account': uid});
-        // storage.get('account');
+        const _this = this;
+        // todo validator
+
+        $.ajax({
+          url: urlAccountLogin,
+          type: 'POST',
+          dataType: 'json',
+          data: {"account": _this.account, "password": _this.password},
+          success: function (res) {
+            console.log("logged");
+          },
+          error: function (res) {
+            console.log("logged failed");
+          }
+        });
+        // storage.set({'account': uid});
       },
       register: function () {
         console.log("test-register");
         // validate
-        if(this.create.password !== this.create.password2){
+        if (this.create.password !== this.create.password2) {
           return false
         }
 
