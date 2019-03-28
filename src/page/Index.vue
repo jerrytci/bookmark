@@ -22,7 +22,7 @@
                   <img :src="'chrome://favicon/size/16@2x/'+tab.url">
                   <a :href="tab.url" target="_blank">{{tab.title}}</a>
                 </div>
-                <i class="el-icon-remove-outline" @click="tabRemove(folderIndex, tabIndex)"></i>
+                <i class="el-icon-remove-outline" @click="removeBookmark(tab.id)"></i>
               </div>
             </el-card>
           </div>
@@ -51,7 +51,7 @@
                     <img :src="'chrome://favicon/size/16@2x/'+tab.url">
                     <a :href="tab.url" target="_blank">{{tab.title}}</a>
                   </div>
-                  <i class="el-icon-remove-outline" @click="tabRemove(folderIndex, tabIndex)"></i>
+                  <i class="el-icon-remove-outline" @click="removeBookmark(tab.id)"></i>
                 </div>
               </el-card>
             </waterfall-slot>
@@ -95,33 +95,63 @@
       chrome.bookmarks.onCreated.addListener(this.appendNewFolderCallback);
       chrome.bookmarks.onChanged.addListener(this.changeFolderCallback);
       // chrome.bookmarks.onMoved.addListener(this.getOther);
-      chrome.bookmarks.onRemoved.addListener(this.removeFolderCallback);
+      chrome.bookmarks.onRemoved.addListener(this.removeCallback);
       this.getOther();
     },
     methods: {
-      removeFolder(folderID){
+      /*bookmark*/
+      removeBookmark(bookmarkID) {
+        chrome.bookmarks.remove(bookmarkID);
+      },
+
+      // chrome.bookmarks.update(string id, object changes, function callback)
+      /*folder*/
+      removeFolder(folderID) {
         chrome.bookmarks.removeTree(folderID);
       },
       /*目前只有一个move方向：unsorted -> sorted*/
-      moveFolder(id, destination, callback){
+      moveFolder(id, destination, callback) {
         chrome.bookmarks.move(id, destination, callback);
       },
 
       /*callback*/
-      removeFolderCallback(id, removeInfo) {
-        for (let i = 0; i < this.unsortBookmarks.length; i++) {
-          if (this.unsortBookmarks[i].id === id) {
-            this.unsortBookmarks.splice(i, 1);
-            return true;
-          }
+      removeCallback(id, removeInfo) {
+        if (typeof removeInfo.node.url === 'undefined') {
+          this.removeFolderCallback(id);
+        } else {
+          this.removeBookmarkCallBack(id, removeInfo);
         }
-        for (let i = 0; i < this.sortedBookmarks.length; i++) {
-          if (this.sortedBookmarks[i].id === id) {
-            this.sortedBookmarks.splice(i, 1);
+      },
+      removeBookmarkCallBack(id, removeInfo) {
+        let find = this.removeSubItem(this.unsortBookmarks, removeInfo.parentId, id);
+        if (!find) this.removeSubItem(this.sortedBookmarks, removeInfo.parentId, id);
+      },
+      removeFolderCallback(id) {
+        let find = this.removeItem(this.unsortBookmarks, id);
+        if (!find) this.removeItem(this.sortedBookmarks, id);
+      },
+      removeItem(array, id) {
+        for (let i = 0; i < array.length; i++) {
+          if (array[i].id === id) {
+            array.splice(i, 1);
             return true;
           }
         }
       },
+      removeSubItem(array, id, bookmarkID) {
+        for (let i = 0; i < array.length; i++) {
+          if (array[i].id === id) {
+            let folder = array[i];
+            for (let j = 0; j < folder.children.length; j++) {
+              if (folder.children[j].id === bookmarkID) {
+                folder.children.splice(j, 1);
+                return true;
+              }
+            }
+          }
+        }
+      },
+
       changeFolderCallback(id, titleAndUrl) {
         if (typeof titleAndUrl.url === 'undefined') {
           for (let i = 0; i < this.unsortBookmarks.length; i++) {
