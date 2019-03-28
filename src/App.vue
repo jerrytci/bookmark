@@ -12,7 +12,7 @@ export default {
   created() {
     if (PRODUCTION) import(
       /* webpackChunkName: "tracker", webpackMode: "lazy" */
-      '@/common/tracker'
+      '@/common/util/tracker'
     ).then(({tracker}) => {
       tracker()
       if (!this.$route.name) return

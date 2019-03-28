@@ -31,7 +31,7 @@ const router = new Router({
 
 if (PRODUCTION) import(
   /* webpackChunkName: "tracker", webpackMode: "lazy" */
-  '@/common/tracker'
+  '@/common/util/tracker'
 ).then(({tracker}) => {
   tracker()
   router.beforeEach((to, from, next) => {

@@ -1,18 +1,18 @@
-import tabs from './common/tabs'
-import storage from './common/storage'
-import options from './common/options'
+import tabs from './common/onetab/tabs'
+import storage from './common/onetab/storage'
+import options from './common/util/options'
 import _ from 'lodash'
-import __ from './common/i18n'
+import __ from './common/util/i18n'
 import browser from 'webextension-polyfill'
 
 if (DEBUG) import(
   /* webpackChunkName: "autoreload", webpackMode: "lazy" */
-  './common/autoreload'
+  './common/util/autoreload'
 ).then(({autoreload}) => autoreload())
 
 if (PRODUCTION) import(
   /* webpackChunkName: "tracker", webpackMode: "lazy" */
-  '@/common/tracker'
+  '@/common/util/tracker'
 ).then(({tracker}) => tracker())
 
 if (DEBUG) {

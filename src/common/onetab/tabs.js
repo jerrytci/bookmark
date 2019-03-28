@@ -1,5 +1,5 @@
 import storage from './storage'
-import list from './list'
+import list from '../util/list'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
 

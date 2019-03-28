@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import __ from '@/common/i18n'
+import __ from '@/common/util/i18n'
 
 const cate = {
   BEHAVIOUR: 'behaviour',
