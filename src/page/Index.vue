@@ -16,7 +16,7 @@
               </div>
               <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
                 <div class="link-title">
-                  <img :src="tab.favIconUrl == null ? '/assets/icons/icon_16.png' : tab.favIconUrl">
+                  <img :src="'chrome://favicon/size/16@2x/'+tab.url">
                   <a :href="tab.url" target="_blank">{{tab.title}}</a>
                 </div>
                 <i class="el-icon-remove-outline" @click="tabRemove(folderIndex, tabIndex)"></i>
@@ -45,7 +45,6 @@
                 <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
                   <div class="link-title">
                     <img :src="'chrome://favicon/size/16@2x/'+tab.url">
-                    <!--<img style="-webkit-user-select: none;" :src="'chrome://favicon/size/16@2x/'+tab.url">-->
                     <a :href="tab.url" target="_blank">{{tab.title}}</a>
                   </div>
                   <i class="el-icon-remove-outline" @click="tabRemove(folderIndex, tabIndex)"></i>
