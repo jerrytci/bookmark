@@ -94,13 +94,17 @@
     created() {
       chrome.bookmarks.onCreated.addListener(this.appendNewFolderCallback);
       chrome.bookmarks.onChanged.addListener(this.changeFolderCallback);
-      chrome.bookmarks.onMoved.addListener(this.getOther);
+      // chrome.bookmarks.onMoved.addListener(this.getOther);
       chrome.bookmarks.onRemoved.addListener(this.removeFolderCallback);
       this.getOther();
     },
     methods: {
       removeFolder(folderID){
         chrome.bookmarks.removeTree(folderID);
+      },
+      /*目前只有一个move方向：unsorted -> sorted*/
+      moveFolder(id, destination, callback){
+        chrome.bookmarks.move(id, destination, callback);
       },
 
       /*callback*/
@@ -117,9 +121,6 @@
             return true;
           }
         }
-      },
-      moveFolder(id, moveInfo) {
-        console.log("move");
       },
       changeFolderCallback(id, titleAndUrl) {
         if (typeof titleAndUrl.url === 'undefined') {
