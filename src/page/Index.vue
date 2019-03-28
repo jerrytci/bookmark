@@ -12,9 +12,10 @@
                 <i class="el-icon-star-off" @click="moveFolder(folder.id, defaultDestinationFolder)"></i>
                 <i class="el-icon-edit-outline" @click="renameList(folderIndex, folder.title)"></i>
                 <div class="label-title">
-                  <a @click="restoreList(folderIndex, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
+                  <!--<a @click="restoreList(folderIndex, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>-->
+                  <a @click="test(folderIndex, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                 </div>
-                <i class="el-icon-remove-outline" @click="removeList(folderIndex)"></i>
+                <i class="el-icon-remove-outline" @click="removeFolder(folder.id)"></i>
               </div>
               <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
                 <div class="link-title">
@@ -43,7 +44,7 @@
                   <div class="label-title">
                     <a @click="restoreList(folderIndex, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                   </div>
-                  <i class="el-icon-remove-outline" @click="removeList(folderIndex)"></i>
+                  <i class="el-icon-remove-outline" @click="removeFolder(folder.id)"></i>
                 </div>
                 <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
                   <div class="link-title">
@@ -91,22 +92,46 @@
       }
     },
     created() {
-      chrome.bookmarks.onCreated.addListener(this.appendNewFolder);
-      chrome.bookmarks.onChanged.addListener(this.changeFolder);
+      chrome.bookmarks.onCreated.addListener(this.appendNewFolderCallback);
+      chrome.bookmarks.onChanged.addListener(this.changeFolderCallback);
+      chrome.bookmarks.onMoved.addListener(this.getOther);
+      chrome.bookmarks.onRemoved.addListener(this.removeFolderCallback);
       this.getOther();
     },
     methods: {
-      changeFolder(id, titleAndUrl) {
+      removeFolder(folderID){
+        chrome.bookmarks.removeTree(folderID);
+      },
+
+      /*callback*/
+      removeFolderCallback(id, removeInfo) {
+        for (let i = 0; i < this.unsortBookmarks.length; i++) {
+          if (this.unsortBookmarks[i].id === id) {
+            this.unsortBookmarks.splice(i, 1);
+            return true;
+          }
+        }
+        for (let i = 0; i < this.sortedBookmarks.length; i++) {
+          if (this.sortedBookmarks[i].id === id) {
+            this.sortedBookmarks.splice(i, 1);
+            return true;
+          }
+        }
+      },
+      moveFolder(id, moveInfo) {
+        console.log("move");
+      },
+      changeFolderCallback(id, titleAndUrl) {
         if (typeof titleAndUrl.url === 'undefined') {
           for (let i = 0; i < this.unsortBookmarks.length; i++) {
-            if(this.unsortBookmarks[i].id === id){
+            if (this.unsortBookmarks[i].id === id) {
               this.unsortBookmarks[i].title = titleAndUrl.title;
               return true;
             }
           }
 
           for (let i = 0; i < this.sortedBookmarks.length; i++) {
-            if(this.sortedBookmarks[i].id === id){
+            if (this.sortedBookmarks[i].id === id) {
               this.sortedBookmarks[i].title = titleAndUrl.title;
               return true;
             }
@@ -114,7 +139,7 @@
         }
       },
       /*新创建的添加到unsortBookmarks, 如果存在，则替换*/
-      appendNewFolder(idStr, BookmarkTreeNode) {
+      appendNewFolderCallback(idStr, BookmarkTreeNode) {
         if (typeof BookmarkTreeNode.url === "undefined") {
           this.newFolder = BookmarkTreeNode;
           this.newFolder.children = [];
@@ -135,17 +160,18 @@
         }
       },
 
+
       get(folder, res) {
         let children = folder.children;
         let tabs = children.filter(i => typeof i.children === 'undefined');
         let subFolders = children.filter(i => typeof i.children !== 'undefined');
 
-        if(tabs.length !== 0){
+        if (tabs.length !== 0) {
           folder.children = tabs;
           res.push(folder);
         }
 
-        if(subFolders.length !== 0){
+        if (subFolders.length !== 0) {
           subFolders.map(i => this.get(i, res));
         }
       },
@@ -171,9 +197,8 @@
         });
       },
 
-
-      moveFolder(id, destination, callback) {
-        chrome.bookmarks.move(id, destination, callback);
+      test() {
+        console.log("test here");
       },
 
       _px(param) {
