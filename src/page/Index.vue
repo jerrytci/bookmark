@@ -100,21 +100,23 @@
     },
     methods: {
       /*bookmark*/
+      /*remove, add(有,但在tab.storeTabs), update(没有,但是可以在chrome书签管理器操作), move(todo)*/
       removeBookmark(bookmarkID) {
         chrome.bookmarks.remove(bookmarkID);
       },
 
-      // chrome.bookmarks.update(string id, object changes, function callback)
       /*folder*/
+      /*remove, add(有,但在tab.storeTabs), update(todo), move*/
+      /*move: 目前只有一个move方向：unsorted -> sorted*/
       removeFolder(folderID) {
         chrome.bookmarks.removeTree(folderID);
       },
-      /*目前只有一个move方向：unsorted -> sorted*/
       moveFolder(id, destination, callback) {
         chrome.bookmarks.move(id, destination, callback);
       },
 
       /*callback*/
+      /*create(folder和bookmark是连在一起,因为bookmark需要folderID), move(todo), update(bookmark: todo), delete*/
       removeCallback(id, removeInfo) {
         if (typeof removeInfo.node.url === 'undefined') {
           this.removeFolderCallback(id);
@@ -169,7 +171,7 @@
           }
         }
       },
-      /*新创建的添加到unsortBookmarks, 如果存在，则替换*/
+      /*新创建的添加到unsortBookmarks, 如果存在，则替换。每触发一个callback,都要判断是否存在(index0)*/
       appendNewFolderCallback(idStr, BookmarkTreeNode) {
         if (typeof BookmarkTreeNode.url === "undefined") {
           this.newFolder = BookmarkTreeNode;
