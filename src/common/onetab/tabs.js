@@ -1,5 +1,6 @@
 import storage from './storage'
 import list from '../util/list'
+import utils from '../util/utils'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
 
@@ -54,6 +55,19 @@ const openAboutPage = async () => {
 };
 
 /*3 store*/
+/*create folder and bookmark*/
+const createFolder = (parentID, newList) => {
+  chrome.bookmarks.create({
+      parentId: parentID,
+      title: newList.title === "" ? utils.formatTimeForTitle(new Date()) : newList.title
+    },
+    (BookmarkTreeNode) => {
+      newList.tabs.forEach((value) => {
+        chrome.bookmarks.create({parentId: BookmarkTreeNode.id, title: value.title, url: value.url});
+      });
+    });
+};
+
 const storeTabs = async tabs => {
   /*过滤appUrl 的tab*/
   const appUrl = browser.runtime.getURL('');
@@ -70,11 +84,21 @@ const storeTabs = async tabs => {
   const newList = list.createNewTabList({tabs: pickTabs(tabs)});
   if (opts.pinNewList) newList.pinned = true;
 
-  /*create folder and bookmark*/
-  chrome.bookmarks.create({parentId: "2", title: newList.title}, (BookmarkTreeNode) => {
-    newList.tabs.forEach((value) => {
-      chrome.bookmarks.create({parentId: BookmarkTreeNode.id, title: value.title, url: value.url});
-    });
+  /*get chrome bookmark pro folder BPF*/
+  let unSortFolder = "BPF";
+  chrome.bookmarks.getChildren("2", function (nodesRes) {
+    let nodes = nodesRes.filter(i => i.title === unSortFolder);
+    if (nodes.length == 0) {
+      console.log('请保持一个名字为"' + unSortFolder + '"的文件夹; 随后会为你自动创建一个"' + unSortFolder + '"文件夹');
+      chrome.bookmarks.create({parentId: "2", title: unSortFolder}, (BookmarkTreeNode) => {
+        createFolder(BookmarkTreeNode.id, newList);
+      });
+    } else if (nodes.length == 1) {
+      createFolder(nodes[0].id, newList);
+    } else {
+      console.log('请保持一个名字为"' + unSortFolder + '"的文件夹; 存在多个"' + unSortFolder + '"文件夹,新创建的文件夹将会保存到最早创建的"' + unSortFolder + '"文件夹中;');
+      createFolder(nodes[0].id, newList);
+    }
   });
 
   if (opts.addHistory) {

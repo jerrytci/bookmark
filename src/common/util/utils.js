@@ -1,9 +1,20 @@
 import moment from 'moment'
 import __ from './i18n'
-moment.locale(__('@@ui_locale'))
-export const formatTime = time => {
-  if (Date.now() - time < 3600E3) return moment(time).fromNow()
+moment.locale(__('@@ui_locale'));
 
-  const withYear = !moment(time).isSame(new Date(), 'year')
-  return moment(time).format(`ddd, MMMM Do ${withYear ? 'YYYY' : ''}, hh:ss`)
+const formatTime = time => {
+  if (Date.now() - time < 3600E3) return moment(time).fromNow();
+  formatTimeForTitle(time)
+};
+
+const formatTimeForTitle = time => {
+  const withYear = !moment(time).isSame(new Date(), 'year');
+  return withYear
+    ? moment(time).format('MMMM Do YYYY, h:mm:ss a')
+    : moment(time).format('MMMM Do, h:mm:ss a')
+};
+
+export default {
+  formatTime,
+  formatTimeForTitle
 }
