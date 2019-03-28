@@ -3,7 +3,7 @@ import list from '../util/list'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
 
-const pickedTabAttrs = ['url', 'title', 'favIconUrl', 'pinned']
+const pickedTabAttrs = ['url', 'title', 'favIconUrl', 'pinned'];
 
 /*1 get tab*/
 const getSelectedTabs = () => browser.tabs.query({highlighted: true, currentWindow: true});
@@ -60,64 +60,64 @@ const storeSelectedTabs = async () => {
   return storeTabs(tabs)
 };
 
-const storeLeftTabs = async () => storeTabs((await groupTabsInCurrentWindow()).left)
-const storeRightTabs = async () => storeTabs((await groupTabsInCurrentWindow()).right)
-const storeTwoSideTabs = async () => storeTabs((await groupTabsInCurrentWindow()).twoSide)
+const storeLeftTabs = async () => storeTabs((await groupTabsInCurrentWindow()).left);
+const storeRightTabs = async () => storeTabs((await groupTabsInCurrentWindow()).right);
+const storeTwoSideTabs = async () => storeTabs((await groupTabsInCurrentWindow()).twoSide);
 
 const storeTabs = async tabs => {
-  const appUrl = browser.runtime.getURL('')
-  tabs = tabs.filter(i => !i.url.startsWith(appUrl))
-  const opts = await storage.getOptions()
-  if (opts.ignorePinned) tabs = tabs.filter(i => !i.pinned)
-  if (tabs.length === 0) return
-  browser.tabs.remove(tabs.map(i => i.id))
-  const lists = await storage.getLists()
-  const newList = list.createNewTabList({tabs: pickTabs(tabs)})
-  if (opts.pinNewList) newList.pinned = true
-  lists.unshift(newList)
-  await storage.setLists(lists)
+  const appUrl = browser.runtime.getURL('');
+  tabs = tabs.filter(i => !i.url.startsWith(appUrl));
+  const opts = await storage.getOptions();
+  if (opts.ignorePinned) tabs = tabs.filter(i => !i.pinned);
+  if (tabs.length === 0) return;
+  browser.tabs.remove(tabs.map(i => i.id));
+  const lists = await storage.getLists();
+  const newList = list.createNewTabList({tabs: pickTabs(tabs)});
+  if (opts.pinNewList) newList.pinned = true;
+  lists.unshift(newList);
+  await storage.setLists(lists);
   if (opts.addHistory) {
     for (let i = 0; i < tabs.length; i += 1) {
       await browser.history.addUrl({url: tabs[i].url})
     }
   }
-}
+};
 
 
 const storeAllTabs = async () => {
-  const tabs = await getAllTabsInCurrentWindow()
-  await openTabLists()
+  const tabs = await getAllTabsInCurrentWindow();
+  await openTabLists();
   return storeTabs(tabs)
-}
+};
 
 const storeAllTabInAllWindows = async () => {
-  const windows = await browser.windows.getAll()
-  await openTabLists()
+  const windows = await browser.windows.getAll();
+  await openTabLists();
   for (const window of windows) {
-    const tabs = await getAllInWindow(window.id)
+    const tabs = await getAllInWindow(window.id);
     storeTabs(tabs)
   }
-}
+};
 
 const restoreList = async (list, windowId) => {
   for (let i = 0; i < list.tabs.length; i += 1) {
-    const tab = list.tabs[i]
+    const tab = list.tabs[i];
     const createdTab = await browser.tabs.create({
       url: tab.url,
       pinned: tab.pinned,
       index: i,
       windowId,
-    })
+    });
     if (tab.muted) browser.tabs.update(createdTab.id, {muted: true})
   }
-}
+};
 
 const restoreListInNewWindow = async list => {
-  const createdWindow = await browser.windows.create({url: list.tabs.map(i => i.url)})
+  const createdWindow = await browser.windows.create({url: list.tabs.map(i => i.url)});
   list.tabs.map((tab, index) => {
     if (tab.muted) browser.tabs.update(createdWindow.tabs[index].id, {muted: true})
   })
-}
+};
 
 /*4 other*/
 const pickTabs = tabs => tabs.map(tab => {
