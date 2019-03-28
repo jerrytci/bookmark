@@ -39,6 +39,7 @@
   "browser_action": {
   },
   "permissions": [
+    "chrome://favicon/",
     "bookmarks",
     "contextMenus",
     "storage",

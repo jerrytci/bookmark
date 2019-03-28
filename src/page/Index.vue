@@ -29,9 +29,9 @@
         <el-scrollbar style="height: 100%">
           <waterfall :grow="grow" ref="waterfall" line-gap="" :fixed-height="true">
             <waterfall-slot v-for="(folder, folderIndex) in otherBookmarks" :key="folder.id"
-                 :order="folderIndex"
-                 :height="itemHeight(folder.children.length)"
-                 :width="1"
+                            :order="folderIndex"
+                            :height="itemHeight(folder.children.length)"
+                            :width="1"
             >
               <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
                 <div class="label" style="width: inherit">
@@ -44,7 +44,8 @@
                 </div>
                 <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
                   <div class="link-title">
-                    <img :src="tab.favIconUrl == null ? '/assets/icons/icon_16.png' : tab.favIconUrl">
+                    <img :src="'chrome://favicon/size/16@2x/'+tab.url">
+                    <!--<img style="-webkit-user-select: none;" :src="'chrome://favicon/size/16@2x/'+tab.url">-->
                     <a :href="tab.url" target="_blank">{{tab.title}}</a>
                   </div>
                   <i class="el-icon-remove-outline" @click="tabRemove(folderIndex, tabIndex)"></i>
@@ -61,8 +62,6 @@
 <script>
   import Waterfall from 'vue-waterfall/lib/waterfall'
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
-
-  import storage from "@/common/onetab/storage";
 
   export default {
     name: "Index",
