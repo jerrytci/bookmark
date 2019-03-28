@@ -156,7 +156,8 @@
         });
       },
 
-      moveFolder(id, destination, callback){
+
+      moveFolder(id, destination, callback) {
         chrome.bookmarks.move(id, destination, callback);
       },
 
