@@ -88,12 +88,12 @@ const storeTabs = async tabs => {
   let unSortFolder = "BPF";
   chrome.bookmarks.getChildren("2", function (nodesRes) {
     let nodes = nodesRes.filter(i => i.title === unSortFolder);
-    if (nodes.length == 0) {
+    if (nodes.length === 0) {
       console.log('请保持一个名字为"' + unSortFolder + '"的文件夹; 随后会为你自动创建一个"' + unSortFolder + '"文件夹');
       chrome.bookmarks.create({parentId: "2", title: unSortFolder}, (BookmarkTreeNode) => {
         createFolder(BookmarkTreeNode.id, newList);
       });
-    } else if (nodes.length == 1) {
+    } else if (nodes.length === 1) {
       createFolder(nodes[0].id, newList);
     } else {
       console.log('请保持一个名字为"' + unSortFolder + '"的文件夹; 存在多个"' + unSortFolder + '"文件夹,新创建的文件夹将会保存到最早创建的"' + unSortFolder + '"文件夹中;');
