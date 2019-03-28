@@ -4,7 +4,9 @@
       <el-col :span="7">
         <el-scrollbar class="hidden-horizontal" style="height: 100vh" :native="false">
           <div v-for="(folder, folderIndex) in otherBookmarks" :key="folder.id"
-               :order="folderIndex">
+               :order="folderIndex"
+               v-if="folder.children.length !== 0"
+          >
             <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
               <div class="label" style="width: inherit">
                 <i class="el-icon-star-off" @click="saveList(folderIndex)"></i>
@@ -32,6 +34,7 @@
                             :order="folderIndex"
                             :height="itemHeight(folder.children.length)"
                             :width="1"
+                            v-if="folder.children.length !== 0"
             >
               <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
                 <div class="label" style="width: inherit">
