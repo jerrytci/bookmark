@@ -17,7 +17,7 @@ const getAllTabsInCurrentWindow = async () => {
 
 const groupTabsInCurrentWindow = async () => {
   const tabs = await getAllTabsInCurrentWindow();
-  const result = { left: [], right: [] };
+  const result = {left: [], right: []};
   let currentIsRight = false;
   for (const tab of tabs) {
     if (tab.highlighted) {
@@ -30,7 +30,7 @@ const groupTabsInCurrentWindow = async () => {
 };
 
 /*2 open tab list*/
-const openTab = async tab => browser.tabs.create({ url: tab.url });
+const openTab = async tab => browser.tabs.create({url: tab.url});
 
 const openTabLists = async () => {
   // open only one in a window
@@ -43,7 +43,7 @@ const openTabLists = async () => {
     const tabs = await getAllInWindow(windowId);
     const tabIndex = tabs.findIndex(tab => tab.id === window.appTabId[windowId]);
     if (tabIndex !== -1)
-      return browser.tabs.highlight({ windowId, tabs: tabIndex })
+      return browser.tabs.highlight({windowId, tabs: tabIndex})
   }
   const createdTab = await browser.tabs.create({url: browser.runtime.getURL('index.html#/app/')});
   window.appTabId[windowId] = createdTab.id
