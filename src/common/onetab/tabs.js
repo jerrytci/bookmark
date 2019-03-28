@@ -55,17 +55,28 @@ const openAboutPage = async () => {
 
 /*3 store*/
 const storeTabs = async tabs => {
+  /*过滤appUrl 的tab*/
   const appUrl = browser.runtime.getURL('');
   tabs = tabs.filter(i => !i.url.startsWith(appUrl));
+
+  /*是否忽略pinned*/
   const opts = await storage.getOptions();
   if (opts.ignorePinned) tabs = tabs.filter(i => !i.pinned);
   if (tabs.length === 0) return;
+
+  /*根据tab.id关闭tab*/
   browser.tabs.remove(tabs.map(i => i.id));
-  const lists = await storage.getLists();
+
   const newList = list.createNewTabList({tabs: pickTabs(tabs)});
   if (opts.pinNewList) newList.pinned = true;
-  lists.unshift(newList);
-  await storage.setLists(lists);
+
+  /*create folder and bookmark*/
+  chrome.bookmarks.create({parentId: "2", title: newList.title}, (BookmarkTreeNode) => {
+    newList.tabs.forEach((value) => {
+      chrome.bookmarks.create({parentId: BookmarkTreeNode.id, title: value.title, url: value.url});
+    });
+  });
+
   if (opts.addHistory) {
     for (let i = 0; i < tabs.length; i += 1) {
       await browser.history.addUrl({url: tabs[i].url})
