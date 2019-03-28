@@ -22,6 +22,13 @@ const openTabLists = async () => {
   window.appTabId[windowId] = createdTab.id
 };
 
+const storeSelectedTabs = async () => {
+  const tabs = await getSelectedTabs();
+  const allTabs = await getAllTabsInCurrentWindow();
+  if (tabs.length === allTabs.length) await openTabLists();
+  return storeTabs(tabs)
+};
+
 const pickTabs = tabs => tabs.map(tab => {
   const pickedTab = _.pick(tab, pickedTabAttrs)
   pickedTab.muted = tab.mutedInfo && tab.mutedInfo.muted
@@ -40,7 +47,6 @@ const getAllTabsInCurrentWindow = async () => {
   const currentWindow = await browser.windows.getCurrent()
   return getAllInWindow(currentWindow.id)
 }
-
 const groupTabsInCurrentWindow = async () => {
   const tabs = await getAllTabsInCurrentWindow()
   const result = { left: [], right: [] }
@@ -78,12 +84,6 @@ const storeTabs = async tabs => {
   }
 }
 
-const storeSelectedTabs = async () => {
-  const tabs = await getSelectedTabs()
-  const allTabs = await getAllTabsInCurrentWindow()
-  if (tabs.length === allTabs.length) await openTabLists()
-  return storeTabs(tabs)
-}
 
 const storeAllTabs = async () => {
   const tabs = await getAllTabsInCurrentWindow()
@@ -124,13 +124,13 @@ const openTab = async tab => browser.tabs.create({ url: tab.url })
 
 export default {
   openTabLists,
+  storeSelectedTabs,
 
 
   getSelectedTabs,
   groupTabsInCurrentWindow,
   storeLeftTabs,
   storeRightTabs,
-  storeSelectedTabs,
   storeTwoSideTabs,
   storeAllTabs,
   storeAllTabInAllWindows,
