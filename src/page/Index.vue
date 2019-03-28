@@ -9,7 +9,7 @@
           >
             <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
               <div class="label" style="width: inherit">
-                <i class="el-icon-star-off" @click="saveList(folderIndex)"></i>
+                <i class="el-icon-star-off" @click="moveFolder(folder.id, defaultDestinationFolder)"></i>
                 <i class="el-icon-edit-outline" @click="renameList(folderIndex, folder.title)"></i>
                 <div class="label-title">
                   <a @click="restoreList(folderIndex, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
@@ -79,6 +79,9 @@
 
         grow: [1, 1, 1, 1],
 
+        defaultDestinationFolder: {
+          parentId: "2",
+        },
         itemMeta: {
           margin: 10,
           content: 24,
@@ -127,6 +130,10 @@
             }
           }
         });
+      },
+
+      moveFolder(id, destination, callback){
+        chrome.bookmarks.move(id, destination, callback);
       },
 
       _px(param) {
