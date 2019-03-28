@@ -90,11 +90,10 @@ const storeSelectedTabs = async () => {
   if (tabs.length === allTabs.length) await openTabLists();
   return storeTabs(tabs)
 };
+
 const storeLeftTabs = async () => storeTabs((await groupTabsInCurrentWindow()).left);
 const storeRightTabs = async () => storeTabs((await groupTabsInCurrentWindow()).right);
-
 const storeTwoSideTabs = async () => storeTabs((await groupTabsInCurrentWindow()).twoSide);
-
 
 const storeAllTabs = async () => {
   const tabs = await getAllTabsInCurrentWindow();
@@ -111,6 +110,7 @@ const storeAllTabInAllWindows = async () => {
   }
 };
 
+/*4 restore */
 const restoreList = async (list, windowId) => {
   for (let i = 0; i < list.tabs.length; i += 1) {
     const tab = list.tabs[i];
@@ -131,7 +131,8 @@ const restoreListInNewWindow = async list => {
   })
 };
 
-/*4 other*/
+/*5 other*/
+/*根据Attrs挑选符合的tab; 设置是否静音;*/
 const pickTabs = tabs => tabs.map(tab => {
   const pickedTab = _.pick(tab, pickedTabAttrs);
   pickedTab.muted = tab.mutedInfo && tab.mutedInfo.muted;
@@ -147,8 +148,6 @@ export default {
   openAboutPage,
 
   storeSelectedTabs,
-
-
   storeLeftTabs,
   storeRightTabs,
   storeTwoSideTabs,
