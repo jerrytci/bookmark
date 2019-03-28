@@ -10,7 +10,7 @@
             <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
               <div class="label" style="width: inherit">
                 <i class="el-icon-star-off" @click="moveFolder(folder.id, defaultDestinationFolder)"></i>
-                <i class="el-icon-edit-outline" @click="renameList(folderIndex, folder.title)"></i>
+                <i class="el-icon-edit-outline" @click="displayUpdateFolderForm(folder.id, folder.title)"></i>
                 <div class="label-title">
                   <!--<a @click="restoreList(folderIndex, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>-->
                   <a @click="test(folderIndex, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
@@ -40,7 +40,7 @@
               <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
                 <div class="label" style="width: inherit">
                   <i class="el-icon-star-off" @click="saveList(folderIndex)"></i>
-                  <i class="el-icon-edit-outline" @click="renameList(folderIndex, folder.title)"></i>
+                  <i class="el-icon-edit-outline" @click="displayUpdateFolderForm(folder.id, folder.title)"></i>
                   <div class="label-title">
                     <a @click="restoreList(folderIndex, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                   </div>
@@ -106,13 +106,35 @@
       },
 
       /*folder*/
-      /*remove, add(有,但在tab.storeTabs), update(todo), move*/
+      /*remove, add(有,但在tab.storeTabs), update, move*/
       /*move: 目前只有一个move方向：unsorted -> sorted*/
       removeFolder(folderID) {
         chrome.bookmarks.removeTree(folderID);
       },
       moveFolder(id, destination, callback) {
         chrome.bookmarks.move(id, destination, callback);
+      },
+      displayUpdateFolderForm(folderID, title) {
+        const _this = this;
+        this.$prompt('请输入名字', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPattern: /[^\s]/,
+          inputValue: title,
+          inputErrorMessage: '名字格式不正确'
+        }).then(({value}) => {
+          if (title === value.trim()) {
+            return;
+          }
+          let changes = {title: value.trim()};
+          _this.updateFolder(folderID, changes);
+          this.$message({type: 'success', message: '更改成功', duration: 1000});
+        }).catch(() => {
+          this.$message({type: 'info', message: '已取消更改', duration: 700});
+        });
+      },
+      updateFolder(id, changes){
+        chrome.bookmarks.update(id, changes);
       },
 
       /*callback*/
