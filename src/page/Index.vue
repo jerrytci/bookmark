@@ -17,13 +17,15 @@
                 </div>
                 <i class="el-icon-remove-outline" @click="removeFolder(folder.id)"></i>
               </div>
-              <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
-                <div class="link-title">
-                  <img :src="'chrome://favicon/size/16@2x/'+tab.url">
-                  <a :href="tab.url" target="_blank">{{tab.title}}</a>
+              <draggable :list="folder.children" group="unsort" @change="draggableLog">
+                <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
+                  <div class="link-title">
+                    <img :src="'chrome://favicon/size/16@2x/'+tab.url">
+                    <a :href="tab.url" target="_blank">{{tab.title}}</a>
+                  </div>
+                  <i class="el-icon-remove-outline" @click="removeBookmark(tab.id)"></i>
                 </div>
-                <i class="el-icon-remove-outline" @click="removeBookmark(tab.id)"></i>
-              </div>
+              </draggable>
             </el-card>
           </div>
         </el-scrollbar>
@@ -46,13 +48,15 @@
                   </div>
                   <i class="el-icon-remove-outline" @click="removeFolder(folder.id)"></i>
                 </div>
-                <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
-                  <div class="link-title">
-                    <img :src="'chrome://favicon/size/16@2x/'+tab.url">
-                    <a :href="tab.url" target="_blank">{{tab.title}}</a>
+                <draggable :list="folder.children" group="sorted" @change="draggableLog">
+                  <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
+                    <div class="link-title">
+                      <img :src="'chrome://favicon/size/16@2x/'+tab.url">
+                      <a :href="tab.url" target="_blank">{{tab.title}}</a>
+                    </div>
+                    <i class="el-icon-remove-outline" @click="removeBookmark(tab.id)"></i>
                   </div>
-                  <i class="el-icon-remove-outline" @click="removeBookmark(tab.id)"></i>
-                </div>
+                </draggable>
               </el-card>
             </waterfall-slot>
           </waterfall>
@@ -66,12 +70,14 @@
   import '@/assets/css/hidden-el-scrollbar-horizontal-bar.styl'
   import Waterfall from 'vue-waterfall/lib/waterfall'
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
+  import draggable from 'vuedraggable'
 
   export default {
     name: "Index",
     components: {
       Waterfall,
-      WaterfallSlot
+      WaterfallSlot,
+      draggable
     },
     data() {
       return {
@@ -79,11 +85,24 @@
         unsortBookmarks: [],
         newFolder: {children: []},
 
-        grow: [1, 1, 1, 1],
+        changed: {
+          change: false,
+          bookmark: {},
+          index: false,
+          newFolderID: '',
+        },
+
+        moved: {
+          change: false,
+          bookmark: {},
+          index: false,
+        },
 
         defaultDestinationFolder: {
           parentId: "2",
         },
+
+        grow: [1, 1, 1, 1],
         itemMeta: {
           margin: 10,
           content: 24,
@@ -91,6 +110,7 @@
         },
       }
     },
+    /*move: 在书签管理器操作会触发move callback; 在页面拖拽的bookmark通过'changed.change'实现*/
     created() {
       chrome.bookmarks.onCreated.addListener(this.appendNewFolderCallback);
       chrome.bookmarks.onChanged.addListener(this.changeFolderCallback);
@@ -98,7 +118,55 @@
       chrome.bookmarks.onRemoved.addListener(this.removeCallback);
       this.getOther();
     },
+    watch: {
+      /*find new location by unsortBookmarks || sortedBookmarks*/
+      'changed.change'(newQuestion, oldQuestion) {
+        if (newQuestion) {
+          this.newLocation();
+          this.moveFolder(this.changed.bookmark.id,
+            {parentId: this.changed.newFolderID, index: this.changed.index});
+          this.changed = {
+            change: false,
+            bookmark: {},
+            index: false,
+            newFolderID: ''
+          };
+        }
+      },
+    },
     methods: {
+      /*draggable*/
+      /*added:newIndex,element*/
+      /*removed:oldIndex,element*/
+      /*moved:newIndex,oldIndex,element*/
+      /*当拖拽跨越组时，先callback added,然后再callback removed。如果不跨组时,直接出现moved*/
+      draggableLog(array) {
+        if (typeof array.added !== 'undefined') {
+          this.changed.bookmark = array.added.element;
+          this.changed.index = array.added.newIndex;
+          this.changed.change = true;
+        } else if (typeof array.moved !== 'undefined') {
+          console.log("test here");
+        }
+      },
+      newLocation() {
+        let find = this.newLocationRepeat(this.unsortBookmarks);
+        if (!find) this.newLocationRepeat(this.sortedBookmarks);
+      },
+      newLocationRepeat(array) {
+        for (let i = 0; i < array.length; i++) {
+          let folder = array[i];
+          if (folder.children.length > this.changed.index) {
+            let ele = folder.children[this.changed.index];
+            if (ele.id === this.changed.bookmark.id) {
+              this.changed.newFolderID = array[i].id;
+              return true;
+            }
+          }
+        }
+        return false;
+      },
+
       /*bookmark*/
       /*remove, add(有,但在tab.storeTabs), update(没有,但是可以在chrome书签管理器操作), move(todo)*/
       removeBookmark(bookmarkID) {
