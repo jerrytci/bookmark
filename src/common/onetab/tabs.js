@@ -5,6 +5,23 @@ import browser from 'webextension-polyfill'
 
 const pickedTabAttrs = ['url', 'title', 'favIconUrl', 'pinned']
 
+const openTabLists = async () => {
+  // open only one in a window
+  const window = await browser.runtime.getBackgroundPage();
+  if (!_.isObject(window.appTabId)) window.appTabId = {};
+  const currentWindow = await browser.windows.getCurrent();
+  const windowId = currentWindow.id;
+
+  if (windowId in window.appTabId) {
+    const tabs = await getAllInWindow(windowId);
+    const tabIndex = tabs.findIndex(tab => tab.id === window.appTabId[windowId]);
+    if (tabIndex !== -1)
+      return browser.tabs.highlight({ windowId, tabs: tabIndex })
+  }
+  const createdTab = await browser.tabs.create({url: browser.runtime.getURL('index.html#/app/')});
+  window.appTabId[windowId] = createdTab.id
+};
+
 const pickTabs = tabs => tabs.map(tab => {
   const pickedTab = _.pick(tab, pickedTabAttrs)
   pickedTab.muted = tab.mutedInfo && tab.mutedInfo.muted
@@ -12,23 +29,6 @@ const pickTabs = tabs => tabs.map(tab => {
 })
 
 const getAllInWindow = windowId => browser.tabs.query({windowId})
-
-const openTabLists = async () => {
-  // open only one in a window
-  const window = await browser.runtime.getBackgroundPage()
-  if (!_.isObject(window.appTabId)) window.appTabId = {}
-  const currentWindow = await browser.windows.getCurrent()
-  const windowId = currentWindow.id
-
-  if (windowId in window.appTabId) {
-    const tabs = await getAllInWindow(windowId)
-    const tabIndex = tabs.findIndex(tab => tab.id === window.appTabId[windowId])
-    if (tabIndex !== -1)
-      return browser.tabs.highlight({ windowId, tabs: tabIndex })
-  }
-  const createdTab = await browser.tabs.create({url: browser.runtime.getURL('index.html#/app/')})
-  window.appTabId[windowId] = createdTab.id
-}
 
 const openAboutPage = async () => {
   window.open(browser.runtime.getURL('index.html#/app/about'))
@@ -123,6 +123,9 @@ const restoreListInNewWindow = async list => {
 const openTab = async tab => browser.tabs.create({ url: tab.url })
 
 export default {
+  openTabLists,
+
+
   getSelectedTabs,
   groupTabsInCurrentWindow,
   storeLeftTabs,
@@ -134,6 +137,5 @@ export default {
   restoreList,
   restoreListInNewWindow,
   openTab,
-  openTabLists,
   openAboutPage,
 }
