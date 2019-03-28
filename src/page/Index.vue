@@ -92,9 +92,27 @@
     },
     created() {
       chrome.bookmarks.onCreated.addListener(this.appendNewFolder);
+      chrome.bookmarks.onChanged.addListener(this.changeFolder);
       this.getOther();
     },
     methods: {
+      changeFolder(id, titleAndUrl) {
+        if (typeof titleAndUrl.url === 'undefined') {
+          for (let i = 0; i < this.unsortBookmarks.length; i++) {
+            if(this.unsortBookmarks[i].id === id){
+              this.unsortBookmarks[i].title = titleAndUrl.title;
+              return true;
+            }
+          }
+
+          for (let i = 0; i < this.sortedBookmarks.length; i++) {
+            if(this.sortedBookmarks[i].id === id){
+              this.sortedBookmarks[i].title = titleAndUrl.title;
+              return true;
+            }
+          }
+        }
+      },
       /*新创建的添加到unsortBookmarks, 如果存在，则替换*/
       appendNewFolder(idStr, BookmarkTreeNode) {
         if (typeof BookmarkTreeNode.url === "undefined") {
