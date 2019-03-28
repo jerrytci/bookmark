@@ -85,19 +85,6 @@
         unsortBookmarks: [],
         newFolder: {children: []},
 
-        changed: {
-          change: false,
-          bookmark: {},
-          index: false,
-          newFolderID: '',
-        },
-
-        moved: {
-          change: false,
-          bookmark: {},
-          index: false,
-        },
-
         defaultDestinationFolder: {
           parentId: "2",
         },
@@ -118,22 +105,6 @@
       chrome.bookmarks.onRemoved.addListener(this.removeCallback);
       this.getOther();
     },
-    watch: {
-      /*find new location by unsortBookmarks || sortedBookmarks*/
-      'changed.change'(newQuestion, oldQuestion) {
-        if (newQuestion) {
-          this.newLocation();
-          this.moveFolder(this.changed.bookmark.id,
-            {parentId: this.changed.newFolderID, index: this.changed.index});
-          this.changed = {
-            change: false,
-            bookmark: {},
-            index: false,
-            newFolderID: ''
-          };
-        }
-      },
-    },
     methods: {
       /*draggable*/
       /*added:newIndex,element*/
@@ -142,25 +113,29 @@
       /*当拖拽跨越组时，先callback added,然后再callback removed。如果不跨组时,直接出现moved*/
       draggableLog(array) {
         if (typeof array.added !== 'undefined') {
-          this.changed.bookmark = array.added.element;
-          this.changed.index = array.added.newIndex;
-          this.changed.change = true;
+          let obj = array.added;
+          let bookmarkID = obj.element.id;
+          let index = obj.newIndex;
+
+          let parentId = this.newLocationRepeat(this.unsortBookmarks, index, bookmarkID);
+          if (!parentId) this.newLocationRepeat(this.sortedBookmarks, index, bookmarkID);
+          this.moveFolder(bookmarkID, {parentId, index});
         } else if (typeof array.moved !== 'undefined') {
-          console.log("test here");
+          let obj = array.moved;
+          let bookmarkID = obj.element.id;
+          let index = obj.newIndex;
+
+          let parentId = obj.element.parentId;
+          this.moveFolder(bookmarkID, {"parentId": parentId, "index": index});
         }
       },
-      newLocation() {
-        let find = this.newLocationRepeat(this.unsortBookmarks);
-        if (!find) this.newLocationRepeat(this.sortedBookmarks);
-      },
-      newLocationRepeat(array) {
+      newLocationRepeat(array, newIndex, bookmarkID) {
         for (let i = 0; i < array.length; i++) {
           let folder = array[i];
-          if (folder.children.length > this.changed.index) {
-            let ele = folder.children[this.changed.index];
-            if (ele.id === this.changed.bookmark.id) {
-              this.changed.newFolderID = array[i].id;
-              return true;
+          if (folder.children.length > newIndex) {
+            let ele = folder.children[newIndex];
+            if (ele.id === bookmarkID) {
+              return array[i].id;
             }
           }
         }
@@ -168,7 +143,7 @@
       },
 
       /*bookmark*/
-      /*remove, add(有,但在tab.storeTabs), update(没有,但是可以在chrome书签管理器操作), move(todo)*/
+      /*remove, add(有,但在tab.storeTabs), update(没有,但是可以在chrome书签管理器操作), move*/
       removeBookmark(bookmarkID) {
         chrome.bookmarks.remove(bookmarkID);
       },
