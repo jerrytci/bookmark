@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="7">
         <el-scrollbar class="hidden-horizontal" style="height: 100vh" :native="false">
-          <div v-for="(folder, folderIndex) in otherBookmarks" :key="folder.id"
+          <div v-for="(folder, folderIndex) in unsortBookmarks" :key="folder.id"
                :order="folderIndex"
                v-if="folder.children.length !== 0"
           >
@@ -28,9 +28,9 @@
         </el-scrollbar>
       </el-col>
       <el-col :span="17">
-        <el-scrollbar class="hidden-horizontal" style="height: 100vh" >
+        <el-scrollbar class="hidden-horizontal" style="height: 100vh">
           <waterfall :grow="grow" ref="waterfall" line-gap="" :fixed-height="true">
-            <waterfall-slot v-for="(folder, folderIndex) in otherBookmarks" :key="folder.id"
+            <waterfall-slot v-for="(folder, folderIndex) in sortedBookmarks" :key="folder.id"
                             :order="folderIndex"
                             :height="itemHeight(folder.children.length)"
                             :width="1"
@@ -74,7 +74,8 @@
     },
     data() {
       return {
-        otherBookmarks: [],
+        sortedBookmarks: [],
+        unsortBookmarks: [],
 
         grow: [1, 1, 1, 1],
 
@@ -89,7 +90,7 @@
       this.getOther();
     },
     methods: {
-      get(folder) {
+      get(folder, res) {
         let f = {};
         f.dateAdded = folder.dateAdded;
         f.dateGroupModified = folder.dateGroupModified;
@@ -101,15 +102,30 @@
           if (typeof item.children === 'undefined') {
             f.children.push(item);
           } else {
-            this.get(item);
+            this.get(item, res);
           }
         });
-        this.otherBookmarks.push(f);
+        res.push(f);
       },
       getOther() {
         const _this = this;
         chrome.bookmarks.getSubTree("2", function (res) {
-          _this.get(res[0]);
+          let otherFolder = res[0];
+          let resIncludeBPF = otherFolder.children.filter(i => i.title === "BPF");
+
+          if (resIncludeBPF.length === 0) {
+            _this.get(otherFolder, _this.sortedBookmarks);
+          } else {
+            let bpfFolder = resIncludeBPF[0];
+            otherFolder.children.splice(bpfFolder.index, 1);
+
+            _this.get(bpfFolder, _this.unsortBookmarks);
+            _this.get(otherFolder, _this.sortedBookmarks);
+
+            if (resIncludeBPF.length !== 1) {
+              console.log('unsort只会显示排在最前面的"BPF"文件夹,其他的"BPF"文件夹将会显示在sorted,请保持有且仅有一个"BPF"文件夹');
+            }
+          }
         });
       },
 
