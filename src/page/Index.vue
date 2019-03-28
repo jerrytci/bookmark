@@ -94,7 +94,7 @@
     created() {
       chrome.bookmarks.onCreated.addListener(this.appendNewFolderCallback);
       chrome.bookmarks.onChanged.addListener(this.changeFolderCallback);
-      // chrome.bookmarks.onMoved.addListener(this.getOther);
+      chrome.bookmarks.onMoved.addListener(this.moveCallback);
       chrome.bookmarks.onRemoved.addListener(this.removeCallback);
       this.getOther();
     },
@@ -138,7 +138,15 @@
       },
 
       /*callback*/
-      /*create(folder和bookmark是连在一起,因为bookmark需要folderID), move(todo), update(bookmark: todo), delete*/
+      /*create(folder和bookmark是连在一起,因为bookmark需要folderID), move, update, delete*/
+      moveCallback(id, moveInfo) {
+        this.sortedBookmarks = [];
+        this.unsortBookmarks = [];
+        this.getOther();
+
+        // todo
+        console.log("test here");
+      },
       removeCallback(id, removeInfo) {
         if (typeof removeInfo.node.url === 'undefined') {
           this.removeFolderCallback(id);
