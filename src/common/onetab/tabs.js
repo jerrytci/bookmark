@@ -5,6 +5,33 @@ import browser from 'webextension-polyfill'
 
 const pickedTabAttrs = ['url', 'title', 'favIconUrl', 'pinned']
 
+/*1 get tab*/
+const getSelectedTabs = () => browser.tabs.query({highlighted: true, currentWindow: true});
+
+const getAllInWindow = windowId => browser.tabs.query({windowId});
+
+const getAllTabsInCurrentWindow = async () => {
+  const currentWindow = await browser.windows.getCurrent();
+  return getAllInWindow(currentWindow.id)
+};
+
+const groupTabsInCurrentWindow = async () => {
+  const tabs = await getAllTabsInCurrentWindow();
+  const result = { left: [], right: [] };
+  let currentIsRight = false;
+  for (const tab of tabs) {
+    if (tab.highlighted) {
+      currentIsRight = true
+    } else if (currentIsRight) result.right.push(tab);
+    else result.left.push(tab)
+  }
+  result.twoSide = result.left.concat(result.right);
+  return result
+};
+
+/*2 open tab list*/
+const openTab = async tab => browser.tabs.create({ url: tab.url });
+
 const openTabLists = async () => {
   // open only one in a window
   const window = await browser.runtime.getBackgroundPage();
@@ -22,44 +49,16 @@ const openTabLists = async () => {
   window.appTabId[windowId] = createdTab.id
 };
 
+const openAboutPage = async () => {
+  window.open(browser.runtime.getURL('index.html#/app/about'))
+};
+/*3 store*/
 const storeSelectedTabs = async () => {
   const tabs = await getSelectedTabs();
   const allTabs = await getAllTabsInCurrentWindow();
   if (tabs.length === allTabs.length) await openTabLists();
   return storeTabs(tabs)
 };
-
-const pickTabs = tabs => tabs.map(tab => {
-  const pickedTab = _.pick(tab, pickedTabAttrs)
-  pickedTab.muted = tab.mutedInfo && tab.mutedInfo.muted
-  return pickedTab
-})
-
-const getAllInWindow = windowId => browser.tabs.query({windowId})
-
-const openAboutPage = async () => {
-  window.open(browser.runtime.getURL('index.html#/app/about'))
-}
-
-const getSelectedTabs = () => browser.tabs.query({highlighted: true, currentWindow: true})
-
-const getAllTabsInCurrentWindow = async () => {
-  const currentWindow = await browser.windows.getCurrent()
-  return getAllInWindow(currentWindow.id)
-}
-const groupTabsInCurrentWindow = async () => {
-  const tabs = await getAllTabsInCurrentWindow()
-  const result = { left: [], right: [] }
-  let currentIsRight = false
-  for (const tab of tabs) {
-    if (tab.highlighted) {
-      currentIsRight = true
-    } else if (currentIsRight) result.right.push(tab)
-    else result.left.push(tab)
-  }
-  result.twoSide = result.left.concat(result.right)
-  return result
-}
 
 const storeLeftTabs = async () => storeTabs((await groupTabsInCurrentWindow()).left)
 const storeRightTabs = async () => storeTabs((await groupTabsInCurrentWindow()).right)
@@ -120,22 +119,30 @@ const restoreListInNewWindow = async list => {
   })
 }
 
-const openTab = async tab => browser.tabs.create({ url: tab.url })
+/*4 other*/
+const pickTabs = tabs => tabs.map(tab => {
+  const pickedTab = _.pick(tab, pickedTabAttrs);
+  pickedTab.muted = tab.mutedInfo && tab.mutedInfo.muted;
+  return pickedTab
+});
 
 export default {
+  groupTabsInCurrentWindow,
+  getSelectedTabs,
+
   openTabLists,
+  openTab,
+  openAboutPage,
+
   storeSelectedTabs,
 
 
-  getSelectedTabs,
-  groupTabsInCurrentWindow,
   storeLeftTabs,
   storeRightTabs,
   storeTwoSideTabs,
   storeAllTabs,
   storeAllTabInAllWindows,
+
   restoreList,
   restoreListInNewWindow,
-  openTab,
-  openAboutPage,
 }
