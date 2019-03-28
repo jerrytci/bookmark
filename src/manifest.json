@@ -39,6 +39,7 @@
   "browser_action": {
   },
   "permissions": [
+    "bookmarks",
     "contextMenus",
     "storage",
     "tabs",
