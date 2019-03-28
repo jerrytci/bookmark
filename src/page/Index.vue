@@ -176,12 +176,20 @@
         }
       },
 
-      changeFolderCallback(id, titleAndUrl) {
-        if (typeof titleAndUrl.url === 'undefined') {
-          let find = this.updateItem(this.unsortBookmarks, id, titleAndUrl.title);
-          if (!find) this.updateItem(this.sortedBookmarks, id, titleAndUrl.title);
+      changeFolderCallback(id, changes) {
+        if (typeof changes.url === 'undefined') {
+          let find = this.updateItem(this.unsortBookmarks, id, changes.title);
+          if (!find) this.updateItem(this.sortedBookmarks, id, changes.title);
         } else {
-
+          chrome.bookmarks.get(id, (results) => {
+            if (results.length === 0) {
+              return true;
+            } else {
+              let parentId = results[0].parentId;
+              let find = this.updateSubItem(this.unsortBookmarks, parentId, changes, id);
+              if (!find) this.updateSubItem(this.sortedBookmarks, parentId, changes, id);
+            }
+          });
         }
       },
       updateItem(array, id, title) {
@@ -189,6 +197,20 @@
           if (array[i].id === id) {
             array[i].title = title;
             return true;
+          }
+        }
+      },
+      updateSubItem(array, id, changes, bookmarkID) {
+        for (let i = 0; i < array.length; i++) {
+          if (array[i].id === id) {
+            let folder = array[i];
+            for (let j = 0; j < folder.children.length; j++) {
+              if (folder.children[j].id === bookmarkID) {
+                if (typeof changes.url !== 'undefined') folder.children[j].url = changes.url;
+                if (typeof changes.title !== 'undefined') folder.children[j].title = changes.title;
+                return true;
+              }
+            }
           }
         }
       },
