@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="7">
-        <el-scrollbar style="height: 100%">
+        <el-scrollbar class="hidden-horizontal" style="height: 100vh" :native="false">
           <div v-for="(folder, folderIndex) in otherBookmarks" :key="folder.id"
                :order="folderIndex">
             <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
@@ -26,7 +26,7 @@
         </el-scrollbar>
       </el-col>
       <el-col :span="17">
-        <el-scrollbar style="height: 100%">
+        <el-scrollbar class="hidden-horizontal" style="height: 100vh" >
           <waterfall :grow="grow" ref="waterfall" line-gap="" :fixed-height="true">
             <waterfall-slot v-for="(folder, folderIndex) in otherBookmarks" :key="folder.id"
                             :order="folderIndex"
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+  import '@/assets/css/hidden-el-scrollbar-horizontal-bar.styl'
   import Waterfall from 'vue-waterfall/lib/waterfall'
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
 
