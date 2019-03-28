@@ -128,12 +128,12 @@
           }
           let changes = {title: value.trim()};
           _this.updateFolder(folderID, changes);
-          this.$message({type: 'success', message: '更改成功', duration: 1000});
+          this.$message({type: 'success', message: '更改成功', duration: 850});
         }).catch(() => {
           this.$message({type: 'info', message: '已取消更改', duration: 700});
         });
       },
-      updateFolder(id, changes){
+      updateFolder(id, changes) {
         chrome.bookmarks.update(id, changes);
       },
 
@@ -178,21 +178,21 @@
 
       changeFolderCallback(id, titleAndUrl) {
         if (typeof titleAndUrl.url === 'undefined') {
-          for (let i = 0; i < this.unsortBookmarks.length; i++) {
-            if (this.unsortBookmarks[i].id === id) {
-              this.unsortBookmarks[i].title = titleAndUrl.title;
-              return true;
-            }
-          }
+          let find = this.updateItem(this.unsortBookmarks, id, titleAndUrl.title);
+          if (!find) this.updateItem(this.sortedBookmarks, id, titleAndUrl.title);
+        } else {
 
-          for (let i = 0; i < this.sortedBookmarks.length; i++) {
-            if (this.sortedBookmarks[i].id === id) {
-              this.sortedBookmarks[i].title = titleAndUrl.title;
-              return true;
-            }
+        }
+      },
+      updateItem(array, id, title) {
+        for (let i = 0; i < array.length; i++) {
+          if (array[i].id === id) {
+            array[i].title = title;
+            return true;
           }
         }
       },
+
       /*新创建的添加到unsortBookmarks, 如果存在，则替换。每触发一个callback,都要判断是否存在(index0)*/
       appendNewFolderCallback(idStr, BookmarkTreeNode) {
         if (typeof BookmarkTreeNode.url === "undefined") {
