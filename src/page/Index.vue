@@ -118,21 +118,18 @@
       },
 
       get(folder, res) {
-        let f = {};
-        f.dateAdded = folder.dateAdded;
-        f.dateGroupModified = folder.dateGroupModified;
-        f.id = folder.id;
-        f.title = folder.title;
-        f.children = [];
+        let children = folder.children;
+        let tabs = children.filter(i => typeof i.children === 'undefined');
+        let subFolders = children.filter(i => typeof i.children !== 'undefined');
 
-        folder.children.forEach((item) => {
-          if (typeof item.children === 'undefined') {
-            f.children.push(item);
-          } else {
-            this.get(item, res);
-          }
-        });
-        res.push(f);
+        if(tabs.length !== 0){
+          folder.children = tabs;
+          res.push(folder);
+        }
+
+        if(subFolders.length !== 0){
+          subFolders.map(i => this.get(i, res));
+        }
       },
       getOther() {
         const _this = this;
