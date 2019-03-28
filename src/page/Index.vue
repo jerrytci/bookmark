@@ -89,6 +89,8 @@
           parentId: "2",
         },
 
+        fromDraggable: false,
+
         grow: [1, 1, 1, 1],
         itemMeta: {
           margin: 10,
@@ -119,6 +121,7 @@
 
           let parentId = this.newLocationRepeat(this.unsortBookmarks, index, bookmarkID);
           if (!parentId) this.newLocationRepeat(this.sortedBookmarks, index, bookmarkID);
+          this.fromDraggable = true;
           this.moveFolder(bookmarkID, {parentId, index});
         } else if (typeof array.moved !== 'undefined') {
           let obj = array.moved;
@@ -126,6 +129,7 @@
           let index = obj.newIndex;
 
           let parentId = obj.element.parentId;
+          this.fromDraggable = true;
           this.moveFolder(bookmarkID, {"parentId": parentId, "index": index});
         }
       },
@@ -183,6 +187,11 @@
       /*callback*/
       /*create(folder和bookmark是连在一起,因为bookmark需要folderID), move, update, delete*/
       moveCallback(id, moveInfo) {
+        if (this.fromDraggable) {
+          this.fromDraggable = false;
+          return;
+        }
+
         this.sortedBookmarks = [];
         this.unsortBookmarks = [];
         this.getOther();
