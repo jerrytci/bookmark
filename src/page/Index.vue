@@ -76,6 +76,7 @@
       return {
         sortedBookmarks: [],
         unsortBookmarks: [],
+        newFolder: {children: []},
 
         grow: [1, 1, 1, 1],
 
@@ -90,9 +91,32 @@
       }
     },
     created() {
+      chrome.bookmarks.onCreated.addListener(this.appendNewFolder);
       this.getOther();
     },
     methods: {
+      /*新创建的添加到unsortBookmarks, 如果存在，则替换*/
+      appendNewFolder(idStr, BookmarkTreeNode) {
+        if (typeof BookmarkTreeNode.url === "undefined") {
+          this.newFolder = BookmarkTreeNode;
+          this.newFolder.children = [];
+        } else {
+          this.newFolder.children.push(BookmarkTreeNode);
+
+          let index0 = -1;
+          for (let i = this.unsortBookmarks.length - 1; i >= 0; i--) {
+            if (this.unsortBookmarks[i].id === this.newFolder.id) {
+              index0 = i;
+              break;
+            }
+          }
+
+          index0 === -1
+            ? this.unsortBookmarks.push(this.newFolder)
+            : this.unsortBookmarks.splice(index0, 1, this.newFolder);
+        }
+      },
+
       get(folder, res) {
         let f = {};
         f.dateAdded = folder.dateAdded;
