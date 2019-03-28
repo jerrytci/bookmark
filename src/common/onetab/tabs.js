@@ -52,18 +52,8 @@ const openTabLists = async () => {
 const openAboutPage = async () => {
   window.open(browser.runtime.getURL('index.html#/app/about'))
 };
+
 /*3 store*/
-const storeSelectedTabs = async () => {
-  const tabs = await getSelectedTabs();
-  const allTabs = await getAllTabsInCurrentWindow();
-  if (tabs.length === allTabs.length) await openTabLists();
-  return storeTabs(tabs)
-};
-
-const storeLeftTabs = async () => storeTabs((await groupTabsInCurrentWindow()).left);
-const storeRightTabs = async () => storeTabs((await groupTabsInCurrentWindow()).right);
-const storeTwoSideTabs = async () => storeTabs((await groupTabsInCurrentWindow()).twoSide);
-
 const storeTabs = async tabs => {
   const appUrl = browser.runtime.getURL('');
   tabs = tabs.filter(i => !i.url.startsWith(appUrl));
@@ -82,6 +72,17 @@ const storeTabs = async tabs => {
     }
   }
 };
+
+const storeSelectedTabs = async () => {
+  const tabs = await getSelectedTabs();
+  const allTabs = await getAllTabsInCurrentWindow();
+  if (tabs.length === allTabs.length) await openTabLists();
+  return storeTabs(tabs)
+};
+const storeLeftTabs = async () => storeTabs((await groupTabsInCurrentWindow()).left);
+const storeRightTabs = async () => storeTabs((await groupTabsInCurrentWindow()).right);
+
+const storeTwoSideTabs = async () => storeTabs((await groupTabsInCurrentWindow()).twoSide);
 
 
 const storeAllTabs = async () => {
