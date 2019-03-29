@@ -51,7 +51,7 @@
   "options_page": "index.html#/options",
   "options_ui":
   {
-    "page": "index.html#/app/options",
+    "page": "index.html#/options",
     "open_in_tab": true
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'"
