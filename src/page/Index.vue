@@ -12,13 +12,13 @@
                 <i class="el-icon-star-off" @click="moveFolder(folder.id, defaultDestinationFolder)"></i>
                 <i class="el-icon-edit-outline" @click="displayUpdateFolderForm(folder.id, folder.title)"></i>
                 <div class="label-title">
-                  <a @click="viewFolder(folder, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
+                  <a @click="viewFolder(folder)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                 </div>
                 <i class="el-icon-remove-outline" @click="removeFolder(folder.id)"></i>
               </div>
               <div v-else class="label" style="width: inherit">
                 <div class="bpf-label-title">
-                  <a @click="viewFolder(folder, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
+                  <a @click="test(folder)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                 </div>
               </div>
               <draggable :list="folder.children" group="unsort" @change="draggableLog">
@@ -48,13 +48,14 @@
                   <!--todo 置顶-->
                   <i class="el-icon-edit-outline" @click="displayUpdateFolderForm(folder.id, folder.title)"></i>
                   <div class="sorted-label-title">
-                    <a @click="viewFolder(folder, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
+                    <a @click="viewFolder(folder)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                   </div>
                   <i class="el-icon-remove-outline" @click="removeFolder(folder.id)"></i>
                 </div>
                 <div v-else class="label" style="width: inherit">
                   <div class="other-label-title">
-                    <a @click="viewFolder(folder, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
+                    <a @click="viewFolder(folder, storage.getOptions().open_in_new_window)">{{folder.title === '' ?
+                      '未设置名字' : folder.title}}</a>
                   </div>
                 </div>
                 <draggable :list="folder.children" group="sorted" @change="draggableLog">
@@ -81,6 +82,7 @@
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
   import draggable from 'vuedraggable'
   import tabs from "@/common/onetab/tabs";
+  import storage from "@/common/onetab/storage";
 
   export default {
     name: "Index",
@@ -363,9 +365,14 @@
       },
 
       /* 6 other */
-      viewFolder(folder, inNewWindow = false) {
-        if (inNewWindow) tabs.viewFolderInNewWindow(folder);
-        else tabs.viewFolder(folder);
+      async viewFolder(folder) {
+        let opts = await storage.getOptions();
+        let openInNew = opts.open_in_new_window;
+        if (openInNew) {
+          tabs.viewFolderInNewWindow(folder);
+        } else {
+          tabs.viewFolder(folder);
+        }
       },
       _px(param) {
         return param + 'px';
