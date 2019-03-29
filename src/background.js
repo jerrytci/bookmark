@@ -8,12 +8,12 @@ import browser from 'webextension-polyfill'
 if (DEBUG) import(
   /* webpackChunkName: "autoreload", webpackMode: "lazy" */
   './common/util/autoreload'
-).then(({autoreload}) => autoreload())
+  ).then(({autoreload}) => autoreload())
 
 if (PRODUCTION) import(
   /* webpackChunkName: "tracker", webpackMode: "lazy" */
   '@/common/util/tracker'
-).then(({tracker}) => tracker())
+  ).then(({tracker}) => tracker())
 
 if (DEBUG) {
   window.tabs = tabs
@@ -25,7 +25,8 @@ const getBrowserActionHandler = action => {
   if (action === 'show-list') return () => tabs.openTabLists()
   if (action === 'store-all') return () => tabs.storeAllTabs()
   if (action === 'store-all-in-all-windows') return () => tabs.storeAllTabInAllWindows()
-  return () => {}
+  return () => {
+  }
 }
 
 const updateBrowserAction = (action, tmp = false) => {
@@ -36,7 +37,8 @@ const updateBrowserAction = (action, tmp = false) => {
   browser.browserAction.setTitle({title: label})
   if (action === 'popup') {
     browser.browserAction.setPopup({popup: 'index.html#/popup'})
-    window.coverBrowserAction = () => {}
+    window.coverBrowserAction = () => {
+    }
   } else {
     browser.browserAction.setPopup({popup: ''})
     window.browswerActionClickedHandler = getBrowserActionHandler(action)
