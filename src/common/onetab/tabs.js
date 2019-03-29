@@ -155,6 +155,23 @@ const restoreListInNewWindow = async list => {
   })
 };
 
+const viewFolder = async (folder, windowId) => {
+  for (let i = 0; i < folder.children.length; i += 1) {
+    const tab = folder.children[i];
+    const createdTab = await browser.tabs.create({
+      url: tab.url,
+      index: i,
+      windowId,
+    });
+  }
+};
+const viewFolderInNewWindow = async folder => {
+  const createdWindow = await browser.windows.create({url: folder.children.map(i => i.url)});
+  folder.children.map((tab, index) => {
+    if (tab.muted) browser.tabs.update(createdWindow.tabs[index].id, {muted: true})
+  })
+};
+
 /*5 other*/
 /*根据Attrs挑选符合的tab; 设置是否静音;*/
 const pickTabs = tabs => tabs.map(tab => {
@@ -180,4 +197,7 @@ export default {
 
   restoreList,
   restoreListInNewWindow,
+
+  viewFolder,
+  viewFolderInNewWindow,
 }
