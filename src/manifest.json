@@ -48,7 +48,7 @@
   ],
   "homepage_url": "https://github.com/rejerry/onetab2",
   "offline_enabled": true,
-  "options_page": "index.html#/app/options",
+  "options_page": "index.html#/options",
   "options_ui":
   {
     "page": "index.html#/app/options",
