@@ -89,15 +89,15 @@ const setupContextMenus = async pageContext => {
 const dynamicDisableMenu = async () => {
   const groupedTabs = await tabs.groupTabsInCurrentWindow();
   console.log(groupedTabs);
-  browser.contextMenus.update('EXTRA.STORE_LEFT_TABS', {
+  browser.contextMenus.update('STORE_LEFT_TABS', {
     enabled: groupedTabs.left.length !== 0,
     title: __('menu_STORE_LEFT_TABS') + ` (${groupedTabs.left.length})`,
   });
-  browser.contextMenus.update('EXTRA.STORE_RIGHT_TABS', {
+  browser.contextMenus.update('STORE_RIGHT_TABS', {
     enabled: groupedTabs.right.length !== 0,
     title: __('menu_STORE_RIGHT_TABS') + ` (${groupedTabs.right.length})`,
   });
-  browser.contextMenus.update('EXTRA.STORE_TWOSIDE_TABS', {
+  browser.contextMenus.update('STORE_TWOSIDE_TABS', {
     enabled: groupedTabs.twoSide.length !== 0,
     title: __('menu_STORE_TWOSIDE_TABS') + ` (${groupedTabs.twoSide.length})`,
   })
