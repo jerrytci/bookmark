@@ -1,9 +1,9 @@
 {
-  "name": "onetab2",
+  "name": "bookmark",
   "version": "0.1.0",
   "description": "处理书签栏存放不下的书签(Handle bookmarks that do not fit in the bookmarks bar)",
   "main": "index.js",
-  "repository": "https://github.com/rejerry/onetab2",
+  "repository": "https://github.com/rejerry/bookmark",
   "author": "rejerry",
   "license": "GPL-3.0",
   "scripts": {
