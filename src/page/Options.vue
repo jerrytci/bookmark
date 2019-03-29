@@ -58,6 +58,7 @@
       }
     },
     created() {
+      console.log("test here");
       this.init()
     },
     methods: {

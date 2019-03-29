@@ -4,7 +4,7 @@ import utils from '../util/utils'
 import _ from 'lodash'
 import browser from 'webextension-polyfill'
 
-const pickedTabAttrs = ['url', 'title', 'favIconUrl', 'pinned'];
+const pickedTabAttrs = ['url', 'title'];
 
 /*1 get tab*/
 const getSelectedTabs = () => browser.tabs.query({highlighted: true, currentWindow: true});

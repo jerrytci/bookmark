@@ -5,16 +5,17 @@
   "default_locale": "zh_CN",
   "description": "__MSG_ext_desc__",
   "author": "Jerry <code.ci@qq.com>",
-  "icons" : {
+  "icons": {
     "16": "assets/icons/icon_16.png",
     "48": "assets/icons/icon_48.png",
     "128": "assets/icons/icon_128.png"
   },
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js"
+    ],
     "persistent": false
   },
-  /*快捷键*/
   "commands": {
     "menu_show_list": {
       "description": "__MSG_menu_show_list__",
@@ -58,8 +59,7 @@
   "homepage_url": "https://github.com/rejerry/bookmark",
   "offline_enabled": true,
   "options_page": "index.html#/options",
-  "options_ui":
-  {
+  "options_ui": {
     "page": "index.html#/options",
     "open_in_tab": true
   },
