@@ -112,6 +112,7 @@ const dynamicDisableMenu = async () => {
 * 设置各种监听*/
 const init = async () => {
   const opts = window.opts = await storage.getOptions() || {};
+  /*合并obj;同属性取第一个参数的属性值*/
   _.defaults(opts, options.getDefaultOptions());
   await storage.setOptions(opts);
   updateBrowserAction(opts.browserAction);
