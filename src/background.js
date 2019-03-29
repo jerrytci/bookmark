@@ -116,20 +116,6 @@ const init = async () => {
       await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'});
       if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key + ':' + changes[key]))
     }
-    if (msg.restoreList) {
-      const restoreList = msg.restoreList;
-      const listIndex = restoreList.index;
-      const lists = await storage.getLists();
-      if (restoreList.newWindow) {
-        tabs.restoreListInNewWindow(lists[listIndex])
-      } else {
-        tabs.restoreList(lists[listIndex])
-      }
-      if (!lists[listIndex].pinned) {
-        lists.splice(listIndex, 1);
-        storage.setLists(lists)
-      }
-    }
   });
 
   /*监听更新*/
