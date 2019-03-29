@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="7">
-        <el-scrollbar class="hidden-horizontal" style="height: 100vh" :native="false">
+        <el-scrollbar class="hidden-horizontal" style="height: 100vh">
           <div v-for="(folder, folderIndex) in unsortBookmarks" :key="folder.id"
                :order="folderIndex"
                v-if="folder.children.length !== 0"
@@ -120,7 +120,7 @@
       this.getOther();
     },
     methods: {
-      /*draggable*/
+      /*1 draggable*/
       /*added:newIndex,element*/
       /*removed:oldIndex,element*/
       /*moved:newIndex,oldIndex,element*/
@@ -162,13 +162,13 @@
         return false;
       },
 
-      /*bookmark*/
+      /*2 bookmark*/
       /*remove, add(有,但在tab.storeTabs), update(没有,但是可以在chrome书签管理器操作), move*/
       removeBookmark(bookmarkID) {
         chrome.bookmarks.remove(bookmarkID);
       },
 
-      /*folder*/
+      /*3 folder*/
       /*remove, add(有,但在tab.storeTabs), update, move*/
       /*move: 目前只有一个move方向：unsorted -> sorted*/
       removeFolder(folderID) {
@@ -200,7 +200,7 @@
         chrome.bookmarks.update(id, changes);
       },
 
-      /*callback*/
+      /*4 callback*/
       /*create(folder和bookmark是连在一起,因为bookmark需要folderID), move, update, delete*/
       moveCallback(id, moveInfo) {
         if (this.fromDraggable) {
@@ -317,21 +317,8 @@
         }
       },
 
-
-      get(folder, res) {
-        let children = folder.children;
-        let tabs = children.filter(i => typeof i.children === 'undefined');
-        let subFolders = children.filter(i => typeof i.children !== 'undefined');
-
-        if (tabs.length !== 0) {
-          folder.children = tabs;
-          res.push(folder);
-        }
-
-        if (subFolders.length !== 0) {
-          subFolders.map(i => this.get(i, res));
-        }
-      },
+      /*5 get data*/
+      /*get other-bookmarks*/
       getOther() {
         const _this = this;
         chrome.bookmarks.getSubTree("2", function (res) {
@@ -353,11 +340,27 @@
           }
         });
       },
+      get(folder, res) {
+        let children = folder.children;
+        let tabs = children.filter(i => typeof i.children === 'undefined');
+        let subFolders = children.filter(i => typeof i.children !== 'undefined');
 
+        if (tabs.length !== 0) {
+          folder.children = tabs;
+          res.push(folder);
+        }
+
+        if (subFolders.length !== 0) {
+          subFolders.map(i => this.get(i, res));
+        }
+      },
+
+      // todo dev,to-delete
       test() {
         console.log("test here");
       },
 
+      /* 6 other */
       _px(param) {
         return param + 'px';
       },
