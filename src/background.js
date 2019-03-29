@@ -20,6 +20,7 @@ if (DEBUG) {
   window.browser = browser
 }
 
+/*插件icon鼠标点击后弹出页面,获取页面的操作对应的callback*/
 const getBrowserActionHandler = action => {
   if (action === 'store-selected') return () => tabs.storeSelectedTabs();
   if (action === 'show-list') return () => tabs.openTabLists();
@@ -29,6 +30,7 @@ const getBrowserActionHandler = action => {
   }
 };
 
+/*更新插件icon鼠标点击事件*/
 const updateBrowserAction = (action, tmp = false) => {
   if (!tmp) window.currentBrowserAction = action;
   const items = _.find(options.optionsList, {name: 'browserAction'}).items;
@@ -53,6 +55,7 @@ const updateBrowserAction = (action, tmp = false) => {
   }
 };
 
+/*设置右键菜单*/
 const setupContextMenus = async pageContext => {
   await browser.contextMenus.removeAll();
   const contexts = [browser.contextMenus.ContextType.BROWSER_ACTION];
@@ -86,6 +89,7 @@ const setupContextMenus = async pageContext => {
   window.contextMenusClickedHandler = info => _.get(menus, info.menuItemId)()
 };
 
+/*动态设置右键菜单,会计算tab的具体数量*/
 const dynamicDisableMenu = async () => {
   const groupedTabs = await tabs.groupTabsInCurrentWindow();
   console.log(groupedTabs);
@@ -103,12 +107,17 @@ const dynamicDisableMenu = async () => {
   })
 };
 
+/*设置icon右键菜单
+* 设置右键菜单
+* 设置各种监听*/
 const init = async () => {
   const opts = window.opts = await storage.getOptions() || {};
   _.defaults(opts, options.getDefaultOptions());
   await storage.setOptions(opts);
   updateBrowserAction(opts.browserAction);
   setupContextMenus(opts.pageContext);
+
+
   browser.runtime.onMessage.addListener(async msg => {
     console.log(msg);
     if (msg.optionsChanged) {
