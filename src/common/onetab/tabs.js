@@ -33,21 +33,30 @@ const groupTabsInCurrentWindow = async () => {
 /*2 open tab list*/
 const openTab = async tab => browser.tabs.create({url: tab.url});
 
+
+/*如果存在多个index.html#/app 地址下的page,切换到latest page,其他关闭；如果没有则新建一个*/
 const openTabLists = async () => {
-  // open only one in a window
-  const window = await browser.runtime.getBackgroundPage();
-  if (!_.isObject(window.appTabId)) window.appTabId = {};
   const currentWindow = await browser.windows.getCurrent();
   const windowId = currentWindow.id;
+  const tabs = await getAllInWindow(windowId);
+  let tabsRes = tabs.filter(i =>
+    browser.runtime.getURL('index.html#/app/') === i.url
+    || browser.runtime.getURL('index.html#/app') === i.url
+  );
+  if (tabsRes.length === 0) {
+    await browser.tabs.create({url: browser.runtime.getURL('index.html#/app/')})
+  } else {
+    let latestTab = tabsRes.splice(tabsRes.length - 1, 1);
+    const tabIndex = tabs.findIndex(tab => tab.id === latestTab[0].id);
+    browser.tabs.highlight({windowId, tabs: tabIndex});
 
-  if (windowId in window.appTabId) {
-    const tabs = await getAllInWindow(windowId);
-    const tabIndex = tabs.findIndex(tab => tab.id === window.appTabId[windowId]);
-    if (tabIndex !== -1)
-      return browser.tabs.highlight({windowId, tabs: tabIndex})
+    /*关闭其他tab*/
+    if (tabsRes.length !== 0) {
+      let ids = [];
+      tabsRes.map(i => ids.push(i.id));
+      browser.tabs.remove(ids);
+    }
   }
-  const createdTab = await browser.tabs.create({url: browser.runtime.getURL('index.html#/app/')});
-  window.appTabId[windowId] = createdTab.id
 };
 
 const openOptionsPage = async () => {
