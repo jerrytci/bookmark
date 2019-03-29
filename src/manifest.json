@@ -15,26 +15,6 @@
     "persistent": false
   },
   "commands": {
-    "store-selected-tabs": {
-      "description": "__MSG_cmd_store_selected_tabs__",
-      "global": true
-    },
-    "store-all-tabs": {
-      "description": "__MSG_cmd_store_all_tabs__",
-      "global": true
-    },
-    "restore-lastest-list": {
-      "description": "__MSG_cmd_restore_lastest_list__",
-      "global": true
-    },
-    "open-lists": {
-      "description": "__MSG_cmd_open_lists__",
-      "global": true
-    },
-    "store-all-in-all-windows": {
-      "description": "__MSG_cmd_store_all_in_all_windows__",
-      "global": true
-    }
   },
   "browser_action": {
   },
