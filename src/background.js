@@ -42,10 +42,10 @@ const updateBrowserAction = (action, tmp = false) => {
 };
 
 /*设置右键菜单*/
-const setupContextMenus = async pageContext => {
+const setupContextMenus = async () => {
   await browser.contextMenus.removeAll();
   const contexts = [browser.contextMenus.ContextType.BROWSER_ACTION];
-  if (pageContext) contexts.push(browser.contextMenus.ContextType.PAGE);
+  contexts.push(browser.contextMenus.ContextType.PAGE);
   const menus = {
     SHOW_TAB_LIST: tabs.openTabLists,
     STORE_SELECTED_TABS: tabs.storeSelectedTabs,
@@ -102,7 +102,7 @@ const init = async () => {
   _.defaults(opts, options.getDefaultOptions());
   await storage.setOptions(opts);
   updateBrowserAction(opts.browserAction);
-  setupContextMenus(opts.pageContext);
+  setupContextMenus();
 
 
   browser.runtime.onMessage.addListener(async msg => {
@@ -112,7 +112,6 @@ const init = async () => {
       console.log(changes);
       Object.assign(opts, changes);
       if (changes.browserAction) updateBrowserAction(changes.browserAction);
-      if ('pageContext' in changes) await setupContextMenus(changes.pageContext);
       await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'});
       if (PRODUCTION) Object.keys(changes).map(key => ga('send', 'event', 'Options', key + ':' + changes[key]))
     }

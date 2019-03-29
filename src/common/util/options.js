@@ -18,8 +18,6 @@ export const optionsList = [
       {value: 'menu_store_all_in_all_windows', label: __('menu_store_all_in_all_windows'),},
     ],
   },
-  {cate: cate.BEHAVIOUR, name: 'pageContext', desc: __('opt_desc_pageContext'), type: Boolean, default: true,},
-
   /*storeTabs引用到*/
   {cate: cate.BEHAVIOUR, name: 'addHistory', desc: __('opt_desc_addHistory'), type: Boolean, default: true,},
   {cate: cate.BEHAVIOUR, name: 'ignorePinned', desc: __('opt_desc_ignorePinned'), type: Boolean, default: true,},
