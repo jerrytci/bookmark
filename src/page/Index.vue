@@ -208,16 +208,17 @@
           return;
         }
 
-        // todo
+        // todo to improve
         /*1 moved后要按照树节点顺序 部分内容要重新排序； 2 同个folder,只更新某个folder.children里面的顺序。*/
         /*let array = this.unsortBookmarks;
         let array2 = this.sortedBookmarks;
         for (let i = 0; i < array.length; i++) {
           if(array.id == )
         }
-
-        this.getOther();*/
-
+        */
+        this.unsortBookmarks = [];
+        this.sortedBookmarks = [];
+        this.getOther();
       },
       removeCallback(id, removeInfo) {
         if (typeof removeInfo.node.url === 'undefined') {
