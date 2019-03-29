@@ -31,6 +31,18 @@
   "menu_store_all_in_all_windows": {
     "message": "储存所有窗口的所有标签"
   },
+  /*从新窗口打开*/
+  "opt_desc_addHistory": {
+    "message": "将储存的标签加入浏览器历史记录中"
+  },
+  "opt_desc_ignorePinned": {
+    "message": "不储存固定的标签"
+  },
+  "opt_desc_open_in_new_window": {
+    "message": "新窗口打开"
+  },
+
+
 
 
   "menu_STORE_LEFT_TABS": {

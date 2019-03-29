@@ -21,6 +21,7 @@ export const optionsList = [
   /*storeTabs引用到*/
   {cate: cate.BEHAVIOUR, name: 'addHistory', desc: __('opt_desc_addHistory'), type: Boolean, default: true,},
   {cate: cate.BEHAVIOUR, name: 'ignorePinned', desc: __('opt_desc_ignorePinned'), type: Boolean, default: true,},
+  {cate: cate.BEHAVIOUR, name: 'open_in_new_window', desc: __('opt_desc_open_in_new_window'), type: Boolean, default: true,},
 ];
 
 /*根据key分类,value就是key所在的对象; mapValues返回被设置 value*/
