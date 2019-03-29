@@ -81,6 +81,7 @@ const setupContextMenus = async () => {
 const dynamicDisableMenu = async () => {
   const groupedTabs = await tabs.groupTabsInCurrentWindow();
   console.log(groupedTabs);
+  /*update: 需要key == menus.key */
   browser.contextMenus.update('STORE_LEFT_TABS', {
     enabled: groupedTabs.left.length !== 0,
     title: __('menu_STORE_LEFT_TABS') + ` (${groupedTabs.left.length})`,
