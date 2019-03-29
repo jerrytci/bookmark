@@ -59,6 +59,7 @@ const setupContextMenus = async () => {
     for (const key of Object.keys(obj)) {
       const prop = {
         id: key,
+        /* "menu_" + menus.props == i18 msg item。如果不存在会显示错误*/
         title: __('menu_' + key),
         contexts,
       };
