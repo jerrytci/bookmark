@@ -67,11 +67,12 @@ const setupContextMenus = async () => {
         prop.parentId = parent
       }
       const id = await browser.contextMenus.create(prop);
-      console.log('context menu created: ' + id);
       if (_.isObject(obj[key])) await createMenus(obj[key], key)
     }
   };
   createMenus(menus);
+  /*get：根据路径查找元素*/
+  /*menuItemId: == id:key*/
   window.contextMenusClickedHandler = info => _.get(menus, info.menuItemId)()
 };
 
@@ -101,15 +102,15 @@ const init = async () => {
   /*合并obj;同属性取第一个参数的属性值*/
   _.defaults(opts, options.getDefaultOptions());
   await storage.setOptions(opts);
+  /*初始化icon右键菜单*/
   updateBrowserAction(opts.browserAction);
+
+  /*初始化右键菜单*/
   setupContextMenus();
 
-
   browser.runtime.onMessage.addListener(async msg => {
-    console.log(msg);
     if (msg.optionsChanged) {
       const changes = msg.optionsChanged;
-      console.log(changes);
       Object.assign(opts, changes);
       if (changes.browserAction) updateBrowserAction(changes.browserAction);
       await browser.runtime.sendMessage({optionsChangeHandledStatus: 'success'});
@@ -130,20 +131,32 @@ const init = async () => {
       }
     }
   });
+
+  /*监听更新*/
   browser.runtime.onUpdateAvailable.addListener(detail => {
     window.update = detail.version
   });
+
+  /*监听安装*/
   browser.runtime.onInstalled.addListener(detail => {
     if (detail.reason === chrome.runtime.OnInstalledReason.UPDATE) {
       tabs.openTheFirstSidePage()
     }
   });
-  browser.browserAction.onClicked.addListener(action => window.browswerActionClickedHandler(action))
-  browser.contextMenus.onClicked.addListener(info => window.contextMenusClickedHandler(info))
+  /*监听点击icon事件*/
+  browser.browserAction.onClicked.addListener(action => window.browswerActionClickedHandler(action));
+
+  /*监听右键菜单*/
+  browser.contextMenus.onClicked.addListener(info => {
+    window.contextMenusClickedHandler(info)
+  });
+
+  /*动态更新当前的tab*/
   browser.tabs.onActivated.addListener(_.debounce(activeInfo => {
-    window.coverBrowserAction(activeInfo);
     dynamicDisableMenu(activeInfo)
   }, 200));
+
+  /*快捷键监听*/
   browser.commands.onCommand.addListener(async command => {
     if (command === 'store-selected-tabs') tabs.storeSelectedTabs();
     else if (command === 'store-all-tabs') tabs.storeAllTabs();
@@ -155,7 +168,8 @@ const init = async () => {
       if (lastest.pinned) return true;
       lists.shift();
       return storage.setLists(lists)
-    } else if (command === 'open-lists') tabs.openTabLists();
+    }
+    else if (command === 'open-lists') tabs.openTabLists();
     else return true;
     if (PRODUCTION) ga('send', 'event', 'Command', 'used', command)
   })
