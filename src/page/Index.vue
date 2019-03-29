@@ -44,13 +44,18 @@
                             v-if="folder.children.length !== 0"
             >
               <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
-                <div class="label" style="width: inherit">
-                  <i class="el-icon-star-off" @click="saveList(folderIndex)"></i>
+                <div v-if="folder.title !== otherBK && folder.title !== otherBKen" class="label" style="width: inherit">
+                  <!--todo 置顶-->
                   <i class="el-icon-edit-outline" @click="displayUpdateFolderForm(folder.id, folder.title)"></i>
-                  <div class="label-title">
-                    <a @click="restoreList(folderIndex, true)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
+                  <div class="sorted-label-title">
+                    <a>{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                   </div>
                   <i class="el-icon-remove-outline" @click="removeFolder(folder.id)"></i>
+                </div>
+                <div v-else class="label" style="width: inherit">
+                  <div class="other-label-title">
+                    <a>{{folder.title === '' ? '未设置名字' : folder.title}}</a>
+                  </div>
                 </div>
                 <draggable :list="folder.children" group="sorted" @change="draggableLog">
                   <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
@@ -101,7 +106,9 @@
           content: 24,
           header: 35.2
         },
-        bpf: "BPF"
+        bpf: "BPF",
+        otherBK: "其他书签",
+        otherBKen: "Other bookmarks"
       }
     },
     /*move: 在书签管理器操作会触发move callback; 在页面拖拽的bookmark通过'changed.change'实现*/
@@ -365,7 +372,11 @@
   .label-title
     width calc(100% - 24px * 3)
 
+  .sorted-label-title
+    width calc(100% - 24px * 2)
+
   .bpf-label-title
+  .other-label-title
     width calc(100%)
 
   /*10:padding.*/
