@@ -1,13 +1,16 @@
 {
   /*app description*/
   "ext_name": {
-    "message": "bookmark"
+    "message": "Bookmark"
   },
   "ext_desc": {
-    "message": "Handle bookmarks that do not fit in the bookmarks bar"
+    "message": "处理Chrome\"其他文件夹\"的书签,有快速保存，分类，快捷查看，高效管理等"
   },
 
   /*右键菜单&icon右键菜单*/
+  "opt_desc_browserAction": {
+    "message": "当图标被点击时的行为"
+  },
   "menu_show_list": {
     "message": "显示列表"
   },

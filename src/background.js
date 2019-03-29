@@ -47,13 +47,13 @@ const setupContextMenus = async () => {
   const contexts = [browser.contextMenus.ContextType.BROWSER_ACTION];
   contexts.push(browser.contextMenus.ContextType.PAGE);
   const menus = {
-    SHOW_TAB_LIST: tabs.openTabLists,
-    STORE_SELECTED_TABS: tabs.storeSelectedTabs,
-    STORE_LEFT_TABS: tabs.storeLeftTabs,
-    STORE_RIGHT_TABS: tabs.storeRightTabs,
-    STORE_TWOSIDE_TABS: tabs.storeTwoSideTabs,
-    STORE_ALL_TABS_IN_CURRENT_WINDOW: tabs.storeAllTabs,
-    STORE_ALL_TABS_IN_ALL_WINDOWS: tabs.storeAllTabInAllWindows,
+    show_list: tabs.openTabLists,
+    store_selected_tabs: tabs.storeSelectedTabs,
+    store_left_tabs: tabs.storeLeftTabs,
+    store_right_tabs: tabs.storeRightTabs,
+    store_twoside_tabs: tabs.storeTwoSideTabs,
+    store_all_tabs: tabs.storeAllTabs,
+    store_all_in_all_windows: tabs.storeAllTabInAllWindows,
   };
   const createMenus = async (obj, parent) => {
     for (const key of Object.keys(obj)) {
@@ -82,17 +82,17 @@ const dynamicDisableMenu = async () => {
   const groupedTabs = await tabs.groupTabsInCurrentWindow();
   console.log(groupedTabs);
   /*update: 需要key == menus.key */
-  browser.contextMenus.update('STORE_LEFT_TABS', {
+  browser.contextMenus.update('store_left_tabs', {
     enabled: groupedTabs.left.length !== 0,
-    title: __('menu_STORE_LEFT_TABS') + ` (${groupedTabs.left.length})`,
+    title: __('menu_store_left_tabs') + ` (${groupedTabs.left.length})`,
   });
-  browser.contextMenus.update('STORE_RIGHT_TABS', {
+  browser.contextMenus.update('store_right_tabs', {
     enabled: groupedTabs.right.length !== 0,
-    title: __('menu_STORE_RIGHT_TABS') + ` (${groupedTabs.right.length})`,
+    title: __('menu_store_right_tabs') + ` (${groupedTabs.right.length})`,
   });
-  browser.contextMenus.update('STORE_TWOSIDE_TABS', {
+  browser.contextMenus.update('store_twoside_tabs', {
     enabled: groupedTabs.twoSide.length !== 0,
-    title: __('menu_STORE_TWOSIDE_TABS') + ` (${groupedTabs.twoSide.length})`,
+    title: __('menu_store_twoside_tabs') + ` (${groupedTabs.twoSide.length})`,
   })
 };
 

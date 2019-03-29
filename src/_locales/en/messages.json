@@ -1,13 +1,16 @@
 {
   /*app description*/
   "ext_name": {
-    "message": "bookmark"
+    "message": "Bookmark"
   },
   "ext_desc": {
-    "message": "Handle bookmarks that do not fit in the bookmarks bar"
+    "message": "Handling Chrome\"Other Folders\" bookmarks with quick save, sort, quick view, efficient management, etc."
   },
 
   /*右键菜单&icon右键菜单*/
+  "opt_desc_browserAction": {
+    "message": "Behavior when icon is clicked"
+  },
   "menu_show_list": {
     "message": "Display list"
   },
