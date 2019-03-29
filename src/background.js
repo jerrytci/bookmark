@@ -144,19 +144,14 @@ const init = async () => {
 
   /*快捷键监听*/
   browser.commands.onCommand.addListener(async command => {
-    if (command === 'store-selected-tabs') tabs.storeSelectedTabs();
-    else if (command === 'store-all-tabs') tabs.storeAllTabs();
-    else if (command === 'restore-lastest-list') {
-      const lists = await storage.getLists();
-      if (lists.length === 0) return true;
-      const lastest = lists[0];
-      await tabs.restoreList(lastest);
-      if (lastest.pinned) return true;
-      lists.shift();
-      return storage.setLists(lists)
-    }
-    else if (command === 'open-lists') tabs.openTabLists();
-    else return true;
+    if (command === 'menu_show_list') tabs.openTabLists();
+    else if (command === 'menu_store_left_tabs') tabs.storeLeftTabs();
+    else if (command === 'menu_store_right_tabs') tabs.storeRightTabs();
+    else if (command === 'menu_store_selected_tabs') tabs.storeSelectedTabs();
+    else if (command === 'menu_store_twoside_tabs') tabs.storeTwoSideTabs();
+    else if (command === 'menu_store_all_tabs') tabs.storeAllTabs();
+    else if (command === 'menu_store_all_in_all_windows') tabs.storeAllTabInAllWindows();
+
     if (PRODUCTION) ga('send', 'event', 'Command', 'used', command)
   })
 };

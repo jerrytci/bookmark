@@ -14,7 +14,36 @@
     "scripts": ["background.js"],
     "persistent": false
   },
+  /*快捷键*/
   "commands": {
+    "menu_show_list": {
+      "description": "__MSG_menu_show_list__",
+      "global": true
+    },
+    "menu_store_left_tabs": {
+      "description": "__MSG_menu_store_left_tabs__",
+      "global": true
+    },
+    "menu_store_right_tabs": {
+      "description": "__MSG_menu_store_right_tabs__",
+      "global": true
+    },
+    "menu_store_selected_tabs": {
+      "description": "__MSG_menu_store_selected_tabs__",
+      "global": true
+    },
+    "menu_store_twoside_tabs": {
+      "description": "__MSG_menu_store_twoside_tabs__",
+      "global": true
+    },
+    "menu_store_all_tabs": {
+      "description": "__MSG_menu_store_all_tabs__",
+      "global": true
+    },
+    "menu_store_all_in_all_windows": {
+      "description": "__MSG_menu_store_all_in_all_windows__",
+      "global": true
+    }
   },
   "browser_action": {
   },
