@@ -19,9 +19,8 @@ export const optionsList = [
   {cate: cate.BEHAVIOUR, name: 'pageContext', desc: __('opt_desc_pageContext'), type: Boolean, default: true,},
 
   /*storeTabs引用到*/
-  {cate: cate.BEHAVIOUR, name: 'ignorePinned', desc: __('opt_desc_ignorePinned'), type: Boolean, default: false,},
-  {cate: cate.BEHAVIOUR, name: 'pinNewList', desc: __('opt_desc_pinNewList'), type: Boolean, default: false,},
   {cate: cate.BEHAVIOUR, name: 'addHistory', desc: __('opt_desc_addHistory'), type: Boolean, default: true,},
+  {cate: cate.BEHAVIOUR, name: 'ignorePinned', desc: __('opt_desc_ignorePinned'), type: Boolean, default: true,},
 ];
 
 /*根据key分类,value就是key所在的对象; mapValues返回被设置 value*/

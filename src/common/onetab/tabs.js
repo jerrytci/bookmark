@@ -91,7 +91,6 @@ const storeTabs = async tabs => {
   browser.tabs.remove(tabs.map(i => i.id));
 
   const newList = list.createNewTabList({tabs: pickTabs(tabs)});
-  if (opts.pinNewList) newList.pinned = true;
 
   /*get chrome bookmark pro folder BPF*/
   let unSortFolder = "BPF";
