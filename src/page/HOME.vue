@@ -66,8 +66,8 @@
   import _ from 'lodash'
   import Waterfall from 'vue-waterfall/lib/waterfall'
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
-  import storage from "@/common/storage";
-  import tabs from "@/common/tabs";
+  import storage from "@/common/onetab/storage";
+  import tabs from "@/common/onetab/tabs";
 
   export default {
     name: "Home",
