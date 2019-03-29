@@ -22,12 +22,13 @@ if (DEBUG) {
 
 /*插件icon鼠标点击后弹出页面,获取页面的操作对应的callback*/
 const getBrowserActionHandler = action => {
-  if (action === 'store-selected') return () => tabs.storeSelectedTabs();
-  if (action === 'show-list') return () => tabs.openTabLists();
-  if (action === 'store-all') return () => tabs.storeAllTabs();
-  if (action === 'store-all-in-all-windows') return () => tabs.storeAllTabInAllWindows();
-  return () => {
-  }
+  if (action === 'menu_show_list') return () => tabs.openTabLists();
+  if (action === 'menu_store_left_tabs') return () => tabs.storeLeftTabs();
+  if (action === 'menu_store_right_tabs') return () => tabs.storeRightTabs();
+  if (action === 'menu_store_selected_tabs') return () => tabs.storeSelectedTabs();
+  if (action === 'menu_store_twoside_tabs') return () => tabs.storeTwoSideTabs();
+  if (action === 'menu_store_all_tabs') return () => tabs.storeAllTabs();
+  if (action === 'menu_store_all_in_all_windows') return () => tabs.storeAllTabInAllWindows();
 };
 
 /*更新插件icon鼠标点击事件*/
@@ -35,24 +36,9 @@ const updateBrowserAction = (action, tmp = false) => {
   if (!tmp) window.currentBrowserAction = action;
   const items = _.find(options.optionsList, {name: 'browserAction'}).items;
   const label = _.find(items, {value: action}).label;
-  console.log('action is: ', action, 'set title as: ', label);
   browser.browserAction.setTitle({title: label});
-  if (action === 'popup') {
-    browser.browserAction.setPopup({popup: 'index.html#/popup'});
-    window.coverBrowserAction = () => {
-    }
-  } else {
-    browser.browserAction.setPopup({popup: ''});
-    window.browswerActionClickedHandler = getBrowserActionHandler(action);
-    if (window.opts.openTabListWhenNewTab) window.coverBrowserAction = async activeInfo => {
-      const tab = await browser.tabs.get(activeInfo.tabId);
-      if (['about:home', 'chrome://newtab/'].includes(tab.url)) {
-        updateBrowserAction('show-list', true)
-      } else {
-        updateBrowserAction(window.currentBrowserAction)
-      }
-    }
-  }
+  browser.browserAction.setPopup({popup: ''});
+  window.browswerActionClickedHandler = getBrowserActionHandler(action);
 };
 
 /*设置右键菜单*/

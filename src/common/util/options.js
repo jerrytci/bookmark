@@ -7,13 +7,15 @@ const cate = {
 
 export const optionsList = [
   {
-    cate: cate.BEHAVIOUR, name: 'browserAction', desc: __('opt_desc_browserAction'), type: String, default: 'show-list',
+    cate: cate.BEHAVIOUR, name: 'browserAction', desc: __('opt_desc_browserAction'), type: String, default: 'menu_show_list',
     items: [
-      {value: 'popup', label: __('opt_label_popup'),},
-      {value: 'store-selected', label: __('opt_label_store_selected'),},
-      {value: 'store-all', label: __('opt_label_store_all'),},
-      {value: 'show-list', label: __('opt_label_show_list'),},
-      {value: 'none', label: __('opt_label_none'),},
+      {value: 'menu_show_list', label: __('menu_show_list'),},
+      {value: 'menu_store_left_tabs', label: __('menu_store_left_tabs'),},
+      {value: 'menu_store_right_tabs', label: __('menu_store_right_tabs'),},
+      {value: 'menu_store_selected_tabs', label: __('menu_store_selected_tabs'),},
+      {value: 'menu_store_twoside_tabs', label: __('menu_store_twoside_tabs'),},
+      {value: 'menu_store_all_tabs', label: __('menu_store_all_tabs'),},
+      {value: 'menu_store_all_in_all_windows', label: __('menu_store_all_in_all_windows'),},
     ],
   },
   {cate: cate.BEHAVIOUR, name: 'pageContext', desc: __('opt_desc_pageContext'), type: Boolean, default: true,},

@@ -1,4 +1,59 @@
 {
+  "opt_label_show_list": {
+    "message": "显示完整标签列表"
+  },
+  "opt_label_store_selected": {
+    "message": "储存选中的标签页"
+  },
+  "opt_label_store_all": {
+    "message": "储存当前窗口的所有标签页"
+  },
+
+  /*右键菜单&icon右键菜单*/
+  "menu_show_list": {
+    "message": "显示列表"
+  },
+  "menu_store_left_tabs": {
+    "message": "储存左边的标签"
+  },
+  "menu_store_right_tabs": {
+    "message": "储存右边的标签"
+  },
+  "menu_store_selected_tabs": {
+    "message": "储存选中的标签"
+  },
+  "menu_store_twoside_tabs": {
+    "message": "储存未选中的标签"
+  },
+  "menu_store_all_tabs": {
+    "message": "储存所有标签"
+  },
+  "menu_store_all_in_all_windows": {
+    "message": "储存所有窗口的所有标签"
+  },
+
+
+  "menu_STORE_LEFT_TABS": {
+    "message": "储存左边的标签"
+  },
+  "menu_STORE_RIGHT_TABS": {
+    "message": "储存右边的标签"
+  },
+  "menu_STORE_TWOSIDE_TABS": {
+    "message": "储存未选中的标签"
+  },
+  "cmd_store_selected_tabs": {
+    "message": "储存选中的标签"
+  },
+  "cmd_store_all_tabs": {
+    "message": "储存所有标签"
+  },
+  "cmd_store_all_in_all_windows": {
+    "message": "储存所有窗口的所有标签"
+  },
+
+
+
   "ext_name": {
     "message": "bookmark"
   },
@@ -83,12 +138,7 @@
   "opt_label_popup": {
     "message": "弹出简单列表"
   },
-  "opt_label_store_selected": {
-    "message": "储存选中的标签页"
-  },
-  "opt_label_store_all": {
-    "message": "储存当前窗口的所有标签页"
-  },
+
   "opt_label_show_list": {
     "message": "显示完整标签列表"
   },
