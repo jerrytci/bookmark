@@ -50,8 +50,8 @@ const openTabLists = async () => {
   window.appTabId[windowId] = createdTab.id
 };
 
-const openAboutPage = async () => {
-  window.open(browser.runtime.getURL('index.html#/app/about'))
+const openOptionsPage = async () => {
+  window.open(browser.runtime.getURL('index.html#/options'))
 };
 
 /*3 store*/
@@ -186,7 +186,7 @@ export default {
 
   openTabLists,
   openTab,
-  openAboutPage,
+  openTheFirstSidePage: openOptionsPage,
 
   storeSelectedTabs,
   storeLeftTabs,

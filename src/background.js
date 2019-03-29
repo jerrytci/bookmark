@@ -138,7 +138,7 @@ const init = async () => {
   })
   browser.runtime.onInstalled.addListener(detail => {
     if (detail.reason === chrome.runtime.OnInstalledReason.UPDATE) {
-      tabs.openAboutPage()
+      tabs.openTheFirstSidePage()
     }
   })
   browser.browserAction.onClicked.addListener(action => window.browswerActionClickedHandler(action))
