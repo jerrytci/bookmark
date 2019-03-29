@@ -127,6 +127,10 @@
           let obj = array.moved;
           let bookmarkID = obj.element.id;
           let index = obj.newIndex;
+          /*chrome.bookmark.move方法bug; 同组内: 如果从上往下拉标签，比如往下拖动了5个位置，实际上只拖动了4个位置。从下往上就正常。跨组正常*/
+          /*resolve: 往下,index加1,不用担心越界问题。往上不处理*/
+          let oldIndex = obj.oldIndex;
+          if (oldIndex < index) index += 1;
 
           let parentId = obj.element.parentId;
           this.fromDraggable = true;
