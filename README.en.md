@@ -42,6 +42,12 @@ Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" b
 - Store all tags
 - Store all tags for all windows
 
+##### noted
+
+- please keep only one folder called "BPF" and put it under the first layer of "other folders";
+
+- empty folders are not displayed by default
+
 ### Installation
 
 [Bookmark - Chrome 网上应用店](https://chrome.google.com/webstore/detail/bookmark/paigdnkkmodopofccgdeacgoocgeijkn/related?hl=zh-CN&gl=US)
@@ -57,8 +63,14 @@ Build your own from following steps：
 
 ### License
 
-GPL3 LICENSE
+GPL3.0
 
 ### About the author
 
 jerry · [rejerry(github)](https://github.com/rejerry)
+
+### The last
+
+Thank you for watching; Welcome to install and use, discuss bug, discuss function 3 linked.Feel free to comment below
+
+Thanks  [cnwangjie/better-onetab: A better OneTab for Chrome & Firefox](https://github.com/cnwangjie/better-onetab)

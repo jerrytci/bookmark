@@ -41,6 +41,11 @@
 - 储存所有标签
 - 储存所有窗口的所有标签
 
+##### 注意
+
+- 请保持有且仅有一个叫“BPF”的文件夹，并且放到“其他文件夹“的第一层的下面”；
+- 默认不显示空文件夹
+
 ### 安装
 
 [Bookmark - Chrome 网上应用店](https://chrome.google.com/webstore/detail/bookmark/paigdnkkmodopofccgdeacgoocgeijkn/related?hl=zh-CN&gl=US)
@@ -56,8 +61,14 @@
 
 ### 许可
 
-GPL3
+GPL3.0
 
 ### 关于作者
 
 jerry · [rejerry(github)](https://github.com/rejerry)
+
+### 最后
+
+谢谢你的观看；欢迎安装使用，讨论bug，讨论功能三连。欢迎在插件下面评价
+
+感谢 [cnwangjie/better-onetab: A better OneTab for Chrome & Firefox](https://github.com/cnwangjie/better-onetab)
