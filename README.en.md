@@ -12,7 +12,7 @@ Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" b
 
 ##### 主页（展示）
 
-![](D:\bookmark\bookmark\README.en.assets\SHOW_BLACK_HAVE_CHROME_TITLE.png)
+![](README.assets/SHOW_BLACK_HAVE_CHROME_TITLE.png)
 
 [Send us a feature request.](https://github.com/rejerry/onetab2/issues/new)
 
