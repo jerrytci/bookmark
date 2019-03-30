@@ -12,7 +12,7 @@
 
 Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" bookmarks, classified save bookmarks, shortcut key operations, custom settings, quick view bookmarks, efficient management of bookmarks and more.
 
-### Features
+### 1 Features
 
 ##### 主页（展示）
 
@@ -42,7 +42,7 @@ Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" b
 - Store all tags
 - Store all tags for all windows
 
-### Q&A
+### 2 Q&A
 
 ##### What is bookmark?
 
@@ -76,11 +76,11 @@ Only developed and tested in chrome. But the theory supports other browsers that
 
 Empty folders are not displayed by default
 
-### Installation
+### 3 Installation
 
 [Bookmark - Chrome 网上应用店](https://chrome.google.com/webstore/detail/bookmark/paigdnkkmodopofccgdeacgoocgeijkn/related?hl=zh-CN&gl=US)
 
-### Development
+### 4 Development
 
 Build your own from following steps：
 0. Clone this repo
@@ -89,19 +89,19 @@ Build your own from following steps：
 0. Click LOAD UNPACKED button and select ./dist path
 0. Build (use `yarn build` command)
 
-### License
+### 5 License
 
 GPL3.0
 
-### Thanks 
+### 6 Thanks 
 
 Partial reference [cnwangjie/better-onetab: A better OneTab for Chrome & Firefox] (https://github.com/cnwangjie/better-onetab), thank you!
 
-### Author
+### 7 Author
 
 jerry · [rejerry(github)](https://github.com/rejerry)
 
-### At last
+### 8 At last
 
 Thank you for watching; Welcome to install and use, discuss bug, discuss function 3 linked.Feel free to comment below
 

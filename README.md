@@ -11,7 +11,7 @@
 
 处理Chrome\"其他文件夹\"的书签。有存储\"临时\"书签，分类保存书签，快捷键操作，自定义设置，快捷查看书签，高效管理书签等功能。
 
-### 教程
+### 1 教程
 
 #### 主页
 
@@ -42,7 +42,7 @@
 - 储存所有标签
 - 储存所有窗口的所有标签
 
-### 问与答
+### 2 问与答
 
 ##### bookmark是什么?
 
@@ -76,11 +76,11 @@ bookmark只是帮助管理和查看chrome “其他书签” ，数据同步由g
 
 默认不显示空文件夹
 
-### 安装
+### 3 安装
 
 [Bookmark - Chrome 网上应用店](https://chrome.google.com/webstore/detail/bookmark/paigdnkkmodopofccgdeacgoocgeijkn/related?hl=zh-CN&gl=US)
 
-### 开发
+### 4 开发
 
 从源码中编译：
 0. Clone 这个仓库
@@ -89,18 +89,18 @@ bookmark只是帮助管理和查看chrome “其他书签” ，数据同步由g
 0. 点击 `加载已解压的扩展程序` 按钮并选择 `./dist` 目录
 0. 编译并打包 (使用 `yarn build` 命令)
 
-### 许可
+### 5 许可
 
 GPL3.0
 
-### 感谢
+### 6 感谢
 
 部分参考 [cnwangjie/better-onetab: A better OneTab for Chrome & Firefox](https://github.com/cnwangjie/better-onetab) ，表示感谢！
 
-### 作者
+### 7 作者
 
 jerry · [rejerry(github)](https://github.com/rejerry)
 
-### 最后
+### 8 最后
 
 谢谢你的观看！欢迎安装使用（[Bookmark - Chrome 网上应用店](https://chrome.google.com/webstore/detail/bookmark/paigdnkkmodopofccgdeacgoocgeijkn/related?hl=zh-CN&gl=US)），讨论bug，讨论功能三连。欢迎在插件下面评价，Star项目
