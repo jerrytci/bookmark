@@ -4,6 +4,10 @@
 
 <h1 align="center">onetab2</h1>
 
+安装地址：[Bookmark - Chrome 网上应用店](https://chrome.google.com/webstore/detail/bookmark/paigdnkkmodopofccgdeacgoocgeijkn/related?hl=zh-CN&gl=US)
+
+---
+
 [中文README](README.md)
 
 Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" bookmarks, classified save bookmarks, shortcut key operations, custom settings, quick view bookmarks, efficient management of bookmarks and more.
@@ -16,23 +20,17 @@ Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" b
 
 [Send us a feature request.](https://github.com/rejerry/onetab2/issues/new)
 
-### Tutorial
+#### Features
 
-##### Homepage (Display List)
-
-- The plugin displays bookmarks for "Other Folders" in the chrome bookmarks bar
-- Body: 1 (left, black background) displays bookmarks in the "BPF" folder, scrolling in a single column; 2 (right) displays all bookmarks except the first BPF folder, using waterfall layout
-- Design: 1 Left - Used to store "temporary" bookmarks, analog to onetab (if you don't know, please search); this part of the bookmark is used to store temporary bookmarks, but the bookmarks are synced to your google account. 2 right - you can save "temporary" bookmarks here
-
-##### Operation
-
+- "Temporary" bookmarks
+- Waterfall stream bookmarks
+- Drag and drop
 - hot key
 - Settings
-- Right click menu
-- Click icon default action
-- icon right click menu
+- Icon (Icon) right-click menu
+- Right click menu (page context menu)
 
-##### 7 operations
+#### 7 kinds of operations
 
 - Display list
 - Save the label on the left
@@ -42,11 +40,35 @@ Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" b
 - Store all tags
 - Store all tags for all windows
 
-##### noted
+### Q&A
 
-- please keep only one folder called "BPF" and put it under the first layer of "other folders";
+###### What is bookmark?
 
-- empty folders are not displayed by default
+Handles bookmarks that overflow from the bookmarks bar. Process bookmarks for Chrome\"Other Folders\".
+
+###### Best practices
+
+- "Temporary" bookmarks: (left side of the home page, black background) used to store temporary bookmarks, analogous to onetab; but unlike onetab, bookmarks on "temporary" bookmarks for "bookmark" are saved to chrome, which is no different from other bookmarks. After use, you can delete or save to “Waterfall Stream Bookmark”.
+- Waterfall stream bookmark: (the right side of the homepage) uses a waterfall flow layout. You can modify the contents of the folder; drag and drop the merged folder. Large-scale changes are recommended to be modified in the bookmark manager, which is more efficient.
+- Number of folder bookmarks: No limit; recommended not too many, no more than 20.
+
+###### What is the "BPF" folder?
+
+The "BPF" folder is set to store "temporary" bookmarks.
+
+If there are more than one, only one will be displayed; please keep a folder with only one "BPF"; it is recommended to put it under the first layer of "Other Folders" and set it to the top.
+
+###### "Waterfall Streaming Bookmarks" Why There Is No Folder View
+
+The waterfall stream bookmarks are designed with waterfall flow, 4 columns, each column can hold 35+ bookmarks. A single page can hold 150+ bookmarks. 6 pages can hold nearly 1k bookmarks
+
+###### Synchronize
+
+Bookmark is just to help manage and view chrome "other bookmarks", data synchronization is provided by google.
+
+###### Others
+
+Empty folders are not displayed by default
 
 ### Installation
 
@@ -65,11 +87,15 @@ Build your own from following steps：
 
 GPL3.0
 
-### About the author
+### Thanks 
+
+Partial reference [cnwangjie/better-onetab: A better OneTab for Chrome & Firefox] (https://github.com/cnwangjie/better-onetab), thank you!
+
+### Author
 
 jerry · [rejerry(github)](https://github.com/rejerry)
 
-### The last
+### At last
 
 Thank you for watching; Welcome to install and use, discuss bug, discuss function 3 linked.Feel free to comment below
 
