@@ -18,8 +18,9 @@ Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" b
 
 ![](README.assets/SHOW_BLACK_HAVE_CHROME_TITLE.png)
 
-[Send us a feature request.](https://github.com/rejerry/onetab2/issues/new)
+[教程讨论（Tutorial discussion） · Issue #1 · rejerry/bookmark](https://github.com/rejerry/bookmark/issues/1)
 
+[I have read the tutorial discussion; want more features or submit a bug? Tell me here.](https://github.com/rejerry/bookmark/issues/new)
 #### Features
 
 - "Temporary" bookmarks
@@ -29,6 +30,7 @@ Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" b
 - Settings
 - Icon (Icon) right-click menu
 - Right click menu (page context menu)
+- Support Chinese and English
 
 #### 7 kinds of operations
 
@@ -42,31 +44,35 @@ Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" b
 
 ### Q&A
 
-###### What is bookmark?
+##### What is bookmark?
 
 Handles bookmarks that overflow from the bookmarks bar. Process bookmarks for Chrome\"Other Folders\".
 
-###### Best practices
+##### Best practices
 
 - "Temporary" bookmarks: (left side of the home page, black background) used to store temporary bookmarks, analogous to onetab; but unlike onetab, bookmarks on "temporary" bookmarks for "bookmark" are saved to chrome, which is no different from other bookmarks. After use, you can delete or save to “Waterfall Stream Bookmark”.
 - Waterfall stream bookmark: (the right side of the homepage) uses a waterfall flow layout. You can modify the contents of the folder; drag and drop the merged folder. Large-scale changes are recommended to be modified in the bookmark manager, which is more efficient.
 - Number of folder bookmarks: No limit; recommended not too many, no more than 20.
 
-###### What is the "BPF" folder?
+##### What is the "BPF" folder?
 
 The "BPF" folder is set to store "temporary" bookmarks.
 
 If there are more than one, only one will be displayed; please keep a folder with only one "BPF"; it is recommended to put it under the first layer of "Other Folders" and set it to the top.
 
-###### "Waterfall Streaming Bookmarks" Why There Is No Folder View
+##### "Waterfall Streaming Bookmarks" Why There Is No Folder View
 
 The waterfall stream bookmarks are designed with waterfall flow, 4 columns, each column can hold 35+ bookmarks. A single page can hold 150+ bookmarks. 6 pages can hold nearly 1k bookmarks
 
-###### Synchronize
+##### Synchronize
 
 Bookmark is just to help manage and view chrome "other bookmarks", data synchronization is provided by google.
 
-###### Others
+##### Compatible
+
+Only developed and tested in chrome. But the theory supports other browsers that can install the chrome plugin. [兼容讨论（Compatible discussion） · Issue #2 · rejerry/bookmark](https://github.com/rejerry/bookmark/issues/2)
+
+##### Others
 
 Empty folders are not displayed by default
 
