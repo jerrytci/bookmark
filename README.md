@@ -9,15 +9,41 @@
 
 ### 功能
 
+##### 主页（展示）
+
+![](D:\bookmark\bookmark\README.assets\SHOW_BLACK_HAVE_CHROME_TITLE.png)
+
 [想要更多功能？在这里告诉我吧](https://github.com/rejerry/bookmark/issues/new)
 
 ### 使用教程
 
+##### 主页（显示列表）
 
+- 插件显示chrome书签栏的“其他文件夹”的书签
+- 主体：1（左边，黑色背景）显示“BPF”文件夹内的书签，采用单列滚动排列；2 (右边) 显示除了第一个BPF文件夹外的所有书签，采用瀑布布局
+- 设计：1 左边 - 用于存储“临时”书签，类比onetab(如果不知道，请搜索一下)；这部分书签是用于存储临时书签，但书签同步到你的google账户的。2 右边 - 可以将“临时”书签保存到此
+
+##### 操作
+
+- 快捷键
+- 设置
+- 右键菜单
+- 点击icon默认操作
+- icon右键菜单
+
+##### 7种操作
+
+- 显示列表
+- 储存左边的标签
+- 储存右边的标签
+- 储存选中的标签
+- 储存未选中的标签
+- 储存所有标签
+- 储存所有窗口的所有标签
 
 ### 安装
 
-还没有准备好
+[Bookmark - Chrome 网上应用店](https://chrome.google.com/webstore/detail/bookmark/paigdnkkmodopofccgdeacgoocgeijkn/related?hl=zh-CN&gl=US)
 
 ### 开发
 

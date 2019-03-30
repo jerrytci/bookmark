@@ -10,15 +10,41 @@ Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" b
 
 ### Features
 
+##### 主页（展示）
+
+![](D:\bookmark\bookmark\README.en.assets\SHOW_BLACK_HAVE_CHROME_TITLE.png)
+
 [Send us a feature request.](https://github.com/rejerry/onetab2/issues/new)
 
 ### Tutorial
 
+##### Homepage (Display List)
 
+- The plugin displays bookmarks for "Other Folders" in the chrome bookmarks bar
+- Body: 1 (left, black background) displays bookmarks in the "BPF" folder, scrolling in a single column; 2 (right) displays all bookmarks except the first BPF folder, using waterfall layout
+- Design: 1 Left - Used to store "temporary" bookmarks, analog to onetab (if you don't know, please search); this part of the bookmark is used to store temporary bookmarks, but the bookmarks are synced to your google account. 2 right - you can save "temporary" bookmarks here
+
+##### Operation
+
+- hot key
+- Settings
+- Right click menu
+- Click icon default action
+- icon right click menu
+
+##### 7 operations
+
+- Display list
+- Save the label on the left
+- Save the label on the right
+- Save selected tags
+- Store unchecked labels
+- Store all tags
+- Store all tags for all windows
 
 ### Installation
 
-Not ready yet.
+[Bookmark - Chrome 网上应用店](https://chrome.google.com/webstore/detail/bookmark/paigdnkkmodopofccgdeacgoocgeijkn/related?hl=zh-CN&gl=US)
 
 ### Development
 
