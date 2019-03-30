@@ -11,7 +11,7 @@
 
 ##### 主页（展示）
 
-![](D:\bookmark\bookmark\README.assets\SHOW_BLACK_HAVE_CHROME_TITLE.png)
+![](README.assets/SHOW_BLACK_HAVE_CHROME_TITLE.png)
 
 [想要更多功能？在这里告诉我吧](https://github.com/rejerry/bookmark/issues/new)
 
