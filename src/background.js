@@ -140,6 +140,10 @@ const init = async () => {
   });
 
   /*动态更新当前的tab*/
+  browser.tabs.onCreated.addListener(_.debounce(tab => {
+    let activeInfo = {"tabId": tab.id, "windowId": tab.windowId};
+    dynamicDisableMenu(activeInfo)
+  }, 200));
   browser.tabs.onActivated.addListener(_.debounce(activeInfo => {
     dynamicDisableMenu(activeInfo)
   }, 200));
