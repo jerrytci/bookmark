@@ -83,11 +83,11 @@ Empty folders are not displayed by default
 ### 4 Development
 
 Build your own from following steps：
-0. Clone this repo
-0. Install dependencies (use `yarn` command)
-0. Auto reload (use `yarn dev` command)
-0. Click LOAD UNPACKED button and select ./dist path
-0. Build (use `yarn build` command)
+- Clone this repo
+- Install dependencies (use `yarn` command)
+- Auto reload (use `yarn dev` command)
+- Click LOAD UNPACKED button and select ./dist path
+- Build (use `yarn build` command)
 
 ### 5 License
 
