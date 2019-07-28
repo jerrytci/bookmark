@@ -6,7 +6,7 @@
           <div slot="header" class="clearfix">
             <span>{{ __('ui_options_' + cate) }}</span>
           </div>
-          <div v-for="option in optionsList">
+          <div v-for="(option, optionIndex) in optionsList" :key="optionIndex">
             <el-row :gutter="20" class="options">
               <el-col :span="16">
                 <span>{{ option.desc }}</span>

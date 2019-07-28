@@ -5,7 +5,6 @@
         <el-scrollbar class="hidden-horizontal" style="height: 100vh">
           <div v-for="(folder, folderIndex) in unsortBookmarks" :key="folder.id"
                :order="folderIndex"
-               v-if="folder.children.length !== 0"
           >
             <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
               <div v-if="folder.title !== bpf" class="label" style="width: inherit">
@@ -22,7 +21,7 @@
                 </div>
               </div>
               <draggable :list="folder.children" group="unsort" @change="draggableLog">
-                <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
+                <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children" :key="tabIndex">
                   <div class="link-title">
                     <img :src="'chrome://favicon/size/16@2x/'+tab.url">
                     <a :href="tab.url" target="_blank">{{tab.title}}</a>
@@ -41,7 +40,6 @@
                             :order="folderIndex"
                             :height="itemHeight(folder.children.length)"
                             :width="1"
-                            v-if="folder.children.length !== 0"
             >
               <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
                 <div v-if="folder.title !== otherBK && folder.title !== otherBKen" class="label" style="width: inherit">
@@ -59,7 +57,7 @@
                   </div>
                 </div>
                 <draggable :list="folder.children" group="sorted" @change="draggableLog">
-                  <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children">
+                  <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children" :key="tabIndex">
                     <div class="link-title">
                       <img :src="'chrome://favicon/size/16@2x/'+tab.url">
                       <a :href="tab.url" target="_blank">{{tab.title}}</a>
