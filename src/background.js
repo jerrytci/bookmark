@@ -42,6 +42,9 @@ const updateBrowserAction = (action, tmp = false) => {
 };
 
 /*设置右键菜单*/
+/*chrome.contextMenus.ACTION_MENU_TOP_LEVEL_LIMIT == 6。只能显示6个，所以出现store_all_in_all_windows没有显示的问题，不是bug。
+解决办法，移除左键点击的那个option,比如默认设置"显示列表",那么右键菜单中就不会显示这个选项
+todo*/
 const setupContextMenus = async () => {
   await browser.contextMenus.removeAll();
   const contexts = [browser.contextMenus.ContextType.BROWSER_ACTION];
@@ -71,7 +74,6 @@ const setupContextMenus = async () => {
       if (_.isObject(obj[key])) await createMenus(obj[key], key)
     }
   };
-  createMenus(menus);
   /*get：根据路径查找元素*/
   /*menuItemId: == id:key*/
   window.contextMenusClickedHandler = info => _.get(menus, info.menuItemId)()
