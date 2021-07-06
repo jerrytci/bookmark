@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="7" style="background-color: black;">
         <el-scrollbar class="hidden-horizontal" style="height: 100vh">
-          <div v-for="(folder, folderIndex) in unsortBookmarks" :key="folder.id"
+          <div v-for="(folder, folderIndex) in unsortBookmarks.slice().reverse()" :key="folder.id"
                :order="folderIndex"
           >
             <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
