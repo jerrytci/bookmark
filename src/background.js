@@ -70,7 +70,7 @@ const setupContextMenus = async () => {
         prop.id = parent + '.' + key;
         prop.parentId = parent
       }
-      const id = await browser.contextMenus.create(prop);
+      await browser.contextMenus.create(prop);
       if (_.isObject(obj[key])) await createMenus(obj[key], key)
     }
   };
