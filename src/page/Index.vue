@@ -17,7 +17,7 @@
               </div>
               <div v-else class="label" style="width: inherit">
                 <div class="bpf-label-title">
-                  <a @click="test(folder)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
+                  <a>{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                 </div>
               </div>
               <draggable :list="folder.children" group="unsort" @change="draggableLog">
@@ -355,11 +355,6 @@
         if (subFolders.length !== 0) {
           subFolders.map(i => this.get(i, res));
         }
-      },
-
-      // todo dev,to-delete
-      test() {
-        console.log("test here");
       },
 
       /* 6 other */
