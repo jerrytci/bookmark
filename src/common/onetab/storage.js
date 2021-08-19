@@ -24,7 +24,6 @@ const sync = async () => {
   const time = Date.now()
   await browser.storage.sync.set({time})
   await browser.storage.local.set({time})
-  console.log('synchronized')
   return true
 }
 

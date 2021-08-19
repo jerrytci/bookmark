@@ -83,7 +83,6 @@ const setupContextMenus = async () => {
 /*动态设置右键菜单,会计算tab的具体数量*/
 const dynamicDisableMenu = async () => {
   const groupedTabs = await tabs.groupTabsInCurrentWindow();
-  console.log(groupedTabs);
   /*update: 需要key == menus.key */
   browser.contextMenus.update('store_left_tabs', {
     enabled: groupedTabs.left.length !== 0,

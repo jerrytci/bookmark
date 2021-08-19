@@ -58,13 +58,11 @@
       }
     },
     created() {
-      console.log("test here");
       this.init()
     },
     methods: {
       __,
       optionsChanged: _.debounce(async function (key, value) {
-        console.log(key, value);
         // when type of option is string options can not be set correctly after first storage.setOptions() called
         await storage.setOptions(this.options);
         await storage.setOptions(this.options);
