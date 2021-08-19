@@ -74,6 +74,7 @@ const setupContextMenus = async () => {
       if (_.isObject(obj[key])) await createMenus(obj[key], key)
     }
   };
+  createMenus(menus);
   /*get：根据路径查找元素*/
   /*menuItemId: == id:key*/
   window.contextMenusClickedHandler = info => _.get(menus, info.menuItemId)()
