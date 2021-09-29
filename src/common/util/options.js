@@ -16,6 +16,7 @@ export const optionsList = [
       {value: 'menu_store_twoside_tabs', label: __('menu_store_twoside_tabs'),},
       {value: 'menu_store_all_tabs', label: __('menu_store_all_tabs'),},
       {value: 'menu_store_all_in_all_windows', label: __('menu_store_all_in_all_windows'),},
+      {value: 'menu_show_history_in_this_windows', label: __('menu_show_history_in_this_windows'),},
     ],
   },
   /*storeTabs引用到*/

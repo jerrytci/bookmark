@@ -22,6 +22,7 @@ if (DEBUG) {
 
 /*插件icon鼠标点击后弹出页面,获取页面的操作对应的callback*/
 const getBrowserActionHandler = action => {
+
   if (action === 'menu_show_list') return () => tabs.openTabLists();
   if (action === 'menu_store_left_tabs') return () => tabs.storeLeftTabs();
   if (action === 'menu_store_right_tabs') return () => tabs.storeRightTabs();
@@ -29,6 +30,7 @@ const getBrowserActionHandler = action => {
   if (action === 'menu_store_twoside_tabs') return () => tabs.storeTwoSideTabs();
   if (action === 'menu_store_all_tabs') return () => tabs.storeAllTabs();
   if (action === 'menu_store_all_in_all_windows') return () => tabs.storeAllTabInAllWindows();
+  if (action === 'menu_show_history_in_this_windows') return () => tabs.historyTabs();
 };
 
 /*更新插件icon鼠标点击事件*/
@@ -36,8 +38,12 @@ const updateBrowserAction = (action, tmp = false) => {
   if (!tmp) window.currentBrowserAction = action;
   const items = _.find(options.optionsList, {name: 'browserAction'}).items;
   const label = _.find(items, {value: action}).label;
-  browser.browserAction.setTitle({title: label});
-  browser.browserAction.setPopup({popup: ''});
+  browser.browserAction.setTitle({title: label}); 
+  if (action === 'menu_show_history_in_this_windows'){ //提前初始化，否则会出现第一次点击无效
+    browser.browserAction.setPopup({popup: 'index.html#/history'});
+  } else {
+    browser.browserAction.setPopup({popup: ''});
+  }
   window.browswerActionClickedHandler = getBrowserActionHandler(action);
 };
 
@@ -165,3 +171,11 @@ const init = async () => {
 };
 
 init();
+
+chrome.omnibox.onInputEntered.addListener(
+  function(text) {
+    // Encode user input for special characters , / ? : @ & = + $ #
+    var newURL = browser.runtime.getURL(`index.html#/view/home?search=${encodeURIComponent(text)}`);
+    // const createdTab = browser.tabs.create({ url: newURL });
+    window.open(newURL);
+  });

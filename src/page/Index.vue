@@ -1,54 +1,60 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="7" style="background-color: black;">
-        <el-scrollbar class="hidden-horizontal" style="height: 100vh">
+      <el-col :span="6" style="background-color: #c0c4cc;">
+        <el-scrollbar class="hidden-horizontal" style="height: calc(100vh - 30px)">
           <div v-for="(folder, folderIndex) in unsortBookmarks.slice().reverse()" :key="folder.id"
                :order="folderIndex"
           >
             <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
               <div v-if="folder.title !== bpf" class="label" style="width: inherit">
-                <i class="el-icon-star-off" @click="moveFolder(folder.id, defaultDestinationFolder)"></i>
-                <i class="el-icon-edit-outline" @click="displayUpdateFolderForm(folder.id, folder.title)"></i>
+                <el-tooltip effect="dark" content="移到右边" placement="bottom">
+                  <i class="el-icon-star-off" @click="moveFolder(folder.id, defaultDestinationFolder)"></i>
+                </el-tooltip>
+                <el-tooltip effect="dark" content="恢复列表" placement="bottom">
+                  <i class="el-icon-position" @click="viewFolder(folder)"></i>
+                </el-tooltip>
                 <div class="label-title">
-                  <a @click="viewFolder(folder)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
+                  <a>{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                 </div>
-                <i class="el-icon-remove-outline" @click="removeFolder(folder.id)"></i>
+                <i class="el-icon-close" @click="removeFolder(folder.id)"></i>
               </div>
               <div v-else class="label" style="width: inherit">
                 <div class="bpf-label-title">
                   <a>{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                 </div>
               </div>
-              <draggable :list="folder.children" group="unsort" @change="draggableLog">
+              <draggable :list="folder.children" :options="{animation:150}" group="unsort" @change="draggableLog">
                 <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children" :key="tabIndex">
                   <div class="link-title">
                     <img :src="'chrome://favicon/size/16@2x/'+tab.url">
-                    <a :href="tab.url" target="_blank">{{tab.title}}</a>
+                    <a :href="tab.url" target="_blank" @click="removeBookmark(tab.id)">{{tab.title}}</a>
                   </div>
-                  <i class="el-icon-remove-outline" @click="removeBookmark(tab.id)"></i>
+                  <i class="el-icon-close" @click="removeBookmark(tab.id)"></i>
                 </div>
               </draggable>
             </el-card>
           </div>
         </el-scrollbar>
       </el-col>
-      <el-col :span="17">
-        <el-scrollbar class="hidden-horizontal" style="height: 100vh">
-          <waterfall :grow="grow" ref="waterfall" line-gap="" :fixed-height="true">
-            <waterfall-slot v-for="(folder, folderIndex) in sortedBookmarks" :key="folder.id"
-                            :order="folderIndex"
-                            :height="itemHeight(folder.children.length)"
-                            :width="1"
-            >
-              <el-card class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
+      <el-col :span="18">
+        <el-scrollbar style="height: calc(100vh - 30px);">
+          <div style="padding-bottom: 100px;">
+            <div v-for="(folder, folderIndex) in sortedBookmarks.slice().reverse()" :key="folder.id" :order="folderIndex"
+              :height="itemHeight(folder.children.length)" :width="1">
+              <div class="box-card" :body-style="{padding: '0px'}" :style="{margin: _px(itemMeta.margin)}">
                 <div v-if="folder.title !== otherBK && folder.title !== otherBKen" class="label" style="width: inherit">
                   <!--todo 置顶-->
-                  <i class="el-icon-edit-outline" @click="displayUpdateFolderForm(folder.id, folder.title)"></i>
-                  <div class="sorted-label-title">
-                    <a @click="viewFolder(folder)">{{folder.title === '' ? '未设置名字' : folder.title}}</a>
+                  <i class="el-icon-edit-outline" v-if="selectedFolderIndex != folderIndex"
+                    @click="displayFolderForm(folderIndex, folder.title)"></i>
+                  <el-input v-if="selectedFolderIndex == folderIndex" class="item" @blur="modifyFolderTitle(folder.id)"
+                    placeholder="请输入内容" v-model="folderTitle" :ref='"elInput"+folderIndex' clearable></el-input>
+                  <div class="sorted-label-title" v-if="selectedFolderIndex != folderIndex">
+                    <a>{{folder.title === '' ? '未设置名字' : folder.title}}</a>
                   </div>
-                  <i class="el-icon-remove-outline" @click="removeFolder(folder.id)"></i>
+                  <div class="label-menu" @click="moveFolder(folder.id, homeDestinationFolder)">移到首页</div>
+                  <div class="label-menu" @click="viewFolder(folder)">恢复列表</div>
+                  <div class="label-menu" @click="removeFolder(folder.id)">删除列表</div>
                 </div>
                 <div v-else class="label" style="width: inherit">
                   <div class="other-label-title">
@@ -56,18 +62,41 @@
                       '未设置名字' : folder.title}}</a>
                   </div>
                 </div>
-                <draggable :list="folder.children" group="sorted" @change="draggableLog">
-                  <div class="link" style="width: inherit" v-for="(tab, tabIndex) in folder.children" :key="tabIndex">
-                    <div class="link-title">
-                      <img :src="'chrome://favicon/size/16@2x/'+tab.url">
-                      <a :href="tab.url" target="_blank">{{tab.title}}</a>
-                    </div>
-                    <i class="el-icon-remove-outline" @click="removeBookmark(tab.id)"></i>
+                <el-row :gutter="10" style="width: inherit" :list="folder.children">
+                  <draggable v-model="folder.children" :options="{ animation: 150}" group="sorted" @change="draggableLog">
+                    <transition-group>
+                      <el-col :span="6" v-for="(tab, tabIndex) in folder.children" :key="tabIndex">
+                        <div class="link">
+                          <div class="link-title">
+                            <img :src="'chrome://favicon/size/16@2x/'+tab.url">
+                            <a :href="tab.url" target="_blank">{{tab.title}}</a>
+                          </div>
+                          <i class="el-icon-close" @click="removeBookmark(tab.id)"></i>
+                        </div>
+                      </el-col>
+                    </transition-group>
+                  </draggable>
+                </el-row>
+                <!-- <draggable
+            v-model="folder.children"
+            :options="{ animation: 150 }"
+            @change="draggableLog"
+          >
+            <transition-group tag="div" class="list" name="list">
+              <div class="item" v-for="(tab, index) in folder.children" :index="index" :key="index">
+                <div class="link">
+                  <div class="link-title">
+                    <img :src="'chrome://favicon/size/16@2x/'+tab.url">
+                    <a :href="tab.url" target="_blank">{{tab.title}}</a>
                   </div>
-                </draggable>
-              </el-card>
-            </waterfall-slot>
-          </waterfall>
+                  <i class="el-icon-close" @click="removeBookmark(tab.id)"></i>
+                </div>
+              </div>
+            </transition-group>
+      </draggable> -->
+              </div>
+            </div>
+          </div>
         </el-scrollbar>
       </el-col>
     </el-row>
@@ -76,8 +105,6 @@
 
 <script>
   import '@/assets/css/hidden-el-scrollbar-horizontal-bar.styl'
-  import Waterfall from 'vue-waterfall/lib/waterfall'
-  import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
   import draggable from 'vuedraggable'
   import tabs from "@/common/onetab/tabs";
   import storage from "@/common/onetab/storage";
@@ -85,18 +112,21 @@
   export default {
     name: "Index",
     components: {
-      Waterfall,
-      WaterfallSlot,
       draggable
     },
     data() {
       return {
+        folderTitle:'',
+        selectedFolderIndex:-1,
         sortedBookmarks: [],
         unsortBookmarks: [],
         newFolder: {children: []},
 
         defaultDestinationFolder: {
           parentId: "2",
+        },
+        homeDestinationFolder: {
+          parentId: "1",
         },
 
         fromDraggable: false,
@@ -178,24 +208,26 @@
       moveFolder(id, destination, callback) {
         chrome.bookmarks.move(id, destination, callback);
       },
-      displayUpdateFolderForm(folderID, title) {
+      modifyFolderTitle(folderID) {
+        this.selectedFolderIndex = -1
+        console.log(folderID)
         const _this = this;
-        this.$prompt('请输入名字', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputPattern: /[^\s]/,
-          inputValue: title,
-          inputErrorMessage: '名字格式不正确'
-        }).then(({value}) => {
-          if (title === value.trim()) {
-            return;
+          let value = this.folderTitle.trim()
+          if(!value){
+            return
           }
           let changes = {title: value.trim()};
+          console.log(changes)
           _this.updateFolder(folderID, changes);
-          this.$message({type: 'success', message: '更改成功', duration: 850});
-        }).catch(() => {
-          this.$message({type: 'info', message: '已取消更改', duration: 700});
-        });
+      },
+      displayFolderForm(folderIndex, title) {
+          this.folderTitle = title
+          this.selectedFolderIndex = folderIndex
+          this.$nextTick(() => {
+            // dom元素更新后执行
+            console.log(this.$refs['elInput'+folderIndex])
+            this.$refs['elInput'+folderIndex][0].focus() // 改变了的值
+        })
       },
       updateFolder(id, changes) {
         chrome.bookmarks.update(id, changes);
@@ -208,7 +240,6 @@
           this.fromDraggable = false;
           return;
         }
-
         // todo to improve
         /*1 moved后要按照树节点顺序 部分内容要重新排序； 2 同个folder,只更新某个folder.children里面的顺序。*/
         /*let array = this.unsortBookmarks;
@@ -258,7 +289,7 @@
         }
       },
 
-      changeFolderCallback(id, changes) {
+      changeFolderCallback(id, changes) { 
         if (typeof changes.url === 'undefined') {
           let find = this.updateItem(this.unsortBookmarks, id, changes.title);
           if (!find) this.updateItem(this.sortedBookmarks, id, changes.title);
@@ -321,20 +352,20 @@
 
       /*5 get data*/
       /*get other-bookmarks*/
-      getOther() {
+      async getOther() {
         const _this = this;
         chrome.bookmarks.getSubTree("2", function (res) {
           let otherFolder = res[0];
           let resIncludeBPF = otherFolder.children.filter(i => i.title === "BPF");
 
           if (resIncludeBPF.length === 0) {
-            _this.get(otherFolder, _this.sortedBookmarks);
+            _this.sortedBookmarks = _this.get(otherFolder);
           } else {
             let bpfFolder = resIncludeBPF[0];
             otherFolder.children.splice(bpfFolder.index, 1);
 
-            _this.get(bpfFolder, _this.unsortBookmarks);
-            _this.get(otherFolder, _this.sortedBookmarks);
+            _this.unsortBookmarks = _this.get(bpfFolder);
+            _this.sortedBookmarks = _this.get(otherFolder);
 
             if (resIncludeBPF.length !== 1) {
               console.log('unsort只会显示排在最前面的"BPF"文件夹,其他的"BPF"文件夹将会显示在sorted,请保持有且仅有一个"BPF"文件夹');
@@ -342,22 +373,27 @@
           }
         });
       },
-      get(folder, res) {
-        let children = folder.children;
-        let tabs = children.filter(i => typeof i.children === 'undefined');
-        let subFolders = children.filter(i => typeof i.children !== 'undefined');
+      get(folder) {
+        let res = [];
+        let stack = [];
+        let p = folder;
+        stack.unshift(p);
+        while (stack.length > 0) {
+          p = stack.shift();
+          let children = p.children;
+          let tabs = children.filter((i) => typeof i.children === "undefined");
+          let subFolders = children.filter((i) => typeof i.children !== "undefined");
 
-        if (tabs.length !== 0) {
-          folder.children = tabs;
-          res.push(folder);
+          if (tabs.length !== 0) {
+            p.children = tabs;
+            res.push(p);
+          }
+          stack.unshift(...subFolders);
         }
-
-        if (subFolders.length !== 0) {
-          subFolders.map(i => this.get(i, res));
-        }
+        return res;
       },
 
-      /* 6 other */
+      /* 还原整个列表 */
       async viewFolder(folder) {
         let opts = await storage.getOptions();
         let openInNew = opts.open_in_new_window;
@@ -377,12 +413,48 @@
   }
 </script>
 
+
+<style>
+  .item input {
+    border-radius: 0px !important;
+    border: none;
+    color: #303133;
+    font-weight: bold;
+  }
+</style>
+
 <style lang="stylus" scoped>
+  .list {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+    width: inherit;
+  }
+  .item {
+    display: inline-block;
+    border-radius: 0px;
+    width 25%
+  }
+
+  .el-main
+    padding 0px
+    margin 0px
   .label-title
     width calc(100% - 24px * 3)
 
   .sorted-label-title
-    width calc(100% - 24px * 2)
+    width 50%
+      
+  .label-menu {
+    align-items: center;
+    padding 8px 10px;
+    color #999;
+    font-size 12px;
+    &:hover {
+      cursor:pointer
+      background-color rgb(235, 235, 235)
+    }
+  }
 
   .bpf-label-title
   .other-label-title
@@ -391,7 +463,8 @@
   /*10:padding.*/
   .link-title
     width calc(100% - 24px - 10px * 2)
-
+    & > a
+      width 100%
   .label
     display flex
     font-weight bold
@@ -399,26 +472,33 @@
     & > i
       padding 10px 5px
       &:hover
+        cursor:pointer
         background-color rgb(235, 235, 235)
     & > div
       display flex
       & > a
         padding 8px 10px;
-        &:hover
-          background-color rgb(235, 235, 235)
+        /* &:hover
+          background-color rgb(235, 235, 235) */
 
   .link
     font-size 12px
+    background: #f5f7fa;
+    border: 1px solid #e4e7ed;
+    margin: 3px;
+    padding 3px;
     display flex
+    &:hover
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1)
+      & > i
+        display inline
     & > i
       padding 6px
-      &:hover
-        background-color rgb(235, 235, 235)
+      display none
     & > div
       display flex
       padding 4px 10px;
-      &:hover
-        background-color: rgb(235, 235, 235);
       & > img
         width: 16px
         height: 16px

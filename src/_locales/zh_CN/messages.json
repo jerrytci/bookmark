@@ -4,7 +4,11 @@
     "message": "Bookmark"
   },
   "ext_desc": {
-    "message": "处理Chrome\"其他文件夹\"的书签。有存储\"临时\"书签，分类保存书签，快捷键操作，自定义设置，快捷查看书签，高效管理书签等功能。"
+    "message": "处理Chrome\"其他文件夹\"的书签。有存储\"临时\"书签，分类保存书签，快捷键操作，自定义设置，快捷查看书签，支持搜索栏直接搜索书签，高效管理书签等功能。查看当前网站的浏览历史，管理已安装扩展插件。"
+  },
+
+  "ext_introduce": {
+    "message": "该插件完全开源，开源地址https://github.com/rejerry/bookmark。欢迎来讨论bug，讨论功能，Star项目"
   },
 
   /*右键菜单&icon右键菜单*/
@@ -31,6 +35,9 @@
   },
   "menu_store_all_in_all_windows": {
     "message": "储存所有窗口的所有标签"
+  },
+  "menu_show_history_in_this_windows": {
+    "message": "查看当前网站的浏览历史"
   },
 
   /*设置选项*/

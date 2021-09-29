@@ -40,11 +40,11 @@ const openTabLists = async () => {
   const windowId = currentWindow.id;
   const tabs = await getAllInWindow(windowId);
   let tabsRes = tabs.filter(i =>
-    browser.runtime.getURL('index.html#/app/') === i.url
-    || browser.runtime.getURL('index.html#/app') === i.url
+    browser.runtime.getURL('index.html#/view/') === i.url
+    || browser.runtime.getURL('index.html#/view') === i.url
   );
   if (tabsRes.length === 0) {
-    await browser.tabs.create({url: browser.runtime.getURL('index.html#/app/')})
+    await browser.tabs.create({url: browser.runtime.getURL('index.html#/view/')})
   } else {
     let latestTab = tabsRes.splice(tabsRes.length - 1, 1);
     const tabIndex = tabs.findIndex(tab => tab.id === latestTab[0].id);
@@ -60,7 +60,7 @@ const openTabLists = async () => {
 };
 
 const openOptionsPage = async () => {
-  window.open(browser.runtime.getURL('index.html#/options'))
+  window.open(browser.runtime.getURL('index.html#/view/options'))
 };
 
 /*3 store*/
@@ -180,6 +180,16 @@ const viewFolderInNewWindow = async folder => {
   })
 };
 
+
+const historyTabs = async () => {
+
+  await browser.browserAction.setPopup({popup: 'index.html#/history'})
+  
+  // return res.data;
+}
+
+
+
 /*5 other*/
 /*根据Attrs挑选符合的tab; 设置是否静音;*/
 const pickTabs = tabs => tabs.map(tab => {
@@ -208,4 +218,6 @@ export default {
 
   viewFolder,
   viewFolderInNewWindow,
+
+  historyTabs,
 }

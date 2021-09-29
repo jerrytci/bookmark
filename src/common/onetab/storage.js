@@ -40,7 +40,8 @@ const get = async key => {
 
 const set = async obj => {
   Object.assign(obj, {time: Date.now()})
-  return browser.storage.local.set(obj)
+  let result = await browser.storage.local.set(obj)
+  return result
 }
 
 const getLists = () => get('lists')
@@ -57,6 +58,11 @@ const getOptions = () => get('opts')
 
 const setOptions = opts => set({opts})
 
+const getUOptions = opts => get(opts)
+  .then((opts) => opts)
+
+const setUOptions = opts => set(opts)
+
 const isQuotaExceeded = () => quotaExceeded
 
-export default {getLists, setLists, getOptions, setOptions, isQuotaExceeded}
+export default {getUOptions,setUOptions,getLists, setLists, getOptions, setOptions, isQuotaExceeded}

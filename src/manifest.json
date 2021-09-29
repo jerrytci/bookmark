@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_ext_name__",
-  "version": "1.0.1.705",
+  "version": "1.0.1.8190",
   "default_locale": "zh_CN",
   "description": "__MSG_ext_desc__",
   "author": "Jerry <code.ci@qq.com>",
@@ -44,23 +44,29 @@
     "menu_store_all_in_all_windows": {
       "description": "__MSG_menu_store_all_in_all_windows__",
       "global": true
+    },
+    "menu_show_history_in_this_windows": {
+      "description": "__MSG_menu_show_history_in_this_windows__",
+      "global": true
     }
   },
   "browser_action": {
   },
+  "omnibox": { "keyword" : "bm" },
   "permissions": [
-    "chrome://favicon/",
+    "chrome://favicon/*",
     "bookmarks",
     "contextMenus",
     "storage",
     "tabs",
-    "history"
+    "history",
+    "management"
   ],
   "homepage_url": "https://github.com/rejerry/bookmark",
   "offline_enabled": true,
-  "options_page": "index.html#/options",
+  "options_page": "index.html#/view/options",
   "options_ui": {
-    "page": "index.html#/options",
+    "page": "index.html#/view/options",
     "open_in_tab": true
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; object-src 'self'"

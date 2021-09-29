@@ -26,7 +26,6 @@
     "stylus-loader": "^3.0.2",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
-    "vue-waterfall": "^1.0.6",
     "vuedraggable": "^2.20.0",
     "webextension-polyfill": "^0.2.1"
   },

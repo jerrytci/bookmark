@@ -4,7 +4,11 @@
     "message": "Bookmark"
   },
   "ext_desc": {
-    "message": "Process bookmarks for Chrome\"Other Folders\". There are storage \"temporary\" bookmarks, classified save bookmarks, shortcut key operations, custom settings, quick view bookmarks, efficient management of bookmarks and more."
+    "message": "Process Chrome\"Other Folders\" bookmarks. There are functions such as storing \"temporary\" bookmarks, saving bookmarks in categories, shortcut key operations, custom settings, quick viewing of bookmarks, support for direct search of bookmarks in the search bar, and efficient management of bookmarks. View the browsing history of the current website and manage the installed extensions."
+  },
+
+  "ext_introduce": {
+    "message": "The plug-in is completely open source, the open source address is https://github.com/rejerry/bookmark. Welcome to discuss bugs, discuss features, Star Project"
   },
 
   /*右键菜单&icon右键菜单*/
@@ -31,6 +35,9 @@
   },
   "menu_store_all_in_all_windows": {
     "message": "Store all tabs for all windows"
+  },
+  "menu_show_history_in_this_windows": {
+    "message": "View the history of the current website"
   },
 
   /*设置选项*/
